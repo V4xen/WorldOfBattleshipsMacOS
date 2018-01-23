@@ -16,11 +16,9 @@ class GameController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.layer?.backgroundColor = CGColor.clear;
         
         prepareController();
-        
-        
-        
     }
     
     func prepareController() -> Void {
@@ -41,7 +39,10 @@ class GameController: NSViewController {
         self.view.frame.size.width = CGFloat(wight);
         self.view.frame.size.height = CGFloat(height);
         
+        //battlefield of player
         GenerateBattleField(_x: 20, _y: Int(self.view.frame.height) - 20, ButtonCount: Game.FieldSize, WhichPlayerField: .Player);
+        
+        //battlefield of computer
         GenerateBattleField(_x: (Int(self.view.frame.size.width) / 2) + 20, _y: Int(self.view.frame.height) - 20, ButtonCount: Game.FieldSize, WhichPlayerField: .Computer);
     }
     
@@ -54,7 +55,10 @@ class GameController: NSViewController {
                 let button: NSButton = NSButton(frame: CGRect(x: x, y: y, width: 20, height: 20))
                 button.title = "";
                 (button.cell as! NSButtonCell).isBordered = true;
-                (button.cell as! NSButtonCell).backgroundColor = NSColor.lightGray;
+                (button.cell as! NSButtonCell).showsBorderOnlyWhileMouseInside = true;
+                (button.cell as! NSButtonCell).backgroundColor = NSColor.clear;
+                (button.cell as! NSButtonCell).backgroundColor = NSColor.init(white: 1, alpha: 0.3);
+                //(button.cell as! NSButtonCell).backgroundColor?.withAlphaComponent(0.1)
                 button.tag = buttonID;
                 button.action = #selector(buttonPressed)
                 if(WhichPlayerField == WhichField.Player){
@@ -72,6 +76,10 @@ class GameController: NSViewController {
     }
     
     @objc func buttonPressed(button: NSButton) {
+        let column: Int = button.tag % Game.FieldSize;
+        let row: Int = button.tag / Game.FieldSize;
         
+        print("[Row:\(row): Column:\(column)]")
+        print("Button.Tag = \(button.tag)")
     }
 }

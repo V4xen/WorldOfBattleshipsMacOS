@@ -750,6 +750,13 @@
                     <view key="view" id="aYZ-hh-orf" customClass="GameC">
                         <rect key="frame" x="0.0" y="0.0" width="528" height="425"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g5E-GH-LA2">
+                                <rect key="frame" x="0.0" y="0.0" width="528" height="425"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="battlefield-background" id="Crt-XX-6C0"/>
+                            </imageView>
+                        </subviews>
                     </view>
                 </viewController>
                 <customObject id="o2g-dx-Qmt" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -759,5 +766,6 @@
     </scenes>
     <resources>
         <image name="Battleship_Missouri" width="884" height="532"/>
+        <image name="battlefield-background" width="751" height="730"/>
     </resources>
 </document>

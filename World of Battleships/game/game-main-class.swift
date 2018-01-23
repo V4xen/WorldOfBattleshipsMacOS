@@ -10,12 +10,12 @@ import Foundation
 
 class MainGame {
     
-    //var playerList: Array<Player>;
-    //var state: GameState;
+    var state = GameState.Starting;
     var FieldSize: Int;
     
     
     init(_fieldsize: Int) {
+        self.state = GameState.Starting;
         self.FieldSize = _fieldsize;
     }
     

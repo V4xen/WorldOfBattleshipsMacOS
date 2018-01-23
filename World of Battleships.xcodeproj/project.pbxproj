@@ -21,6 +21,7 @@
 		9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B8A2C712007CFE800ADCDF0 /* Main.storyboard */; };
 		9B9066C3201796B100694AED /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C2201796B100694AED /* GameController.swift */; };
 		9B9066C52017A65200694AED /* which-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C42017A65200694AED /* which-field.swift */; };
+		9B9066CD2017BD3400694AED /* battlefield-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B9066CC2017BD3400694AED /* battlefield-background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		9B8A2C752007CFE800ADCDF0 /* World_of_Battleships.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = World_of_Battleships.entitlements; sourceTree = "<group>"; };
 		9B9066C2201796B100694AED /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameController.swift; path = "World of Battleships/controllers/GameController.swift"; sourceTree = SOURCE_ROOT; };
 		9B9066C42017A65200694AED /* which-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "which-field.swift"; sourceTree = "<group>"; };
+		9B9066CC2017BD3400694AED /* battlefield-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "battlefield-background.png"; path = "World of Battleships/media/battlefield-background.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,13 +75,6 @@
 			path = game;
 			sourceTree = "<group>";
 		};
-		9B7F0C3F2011116900892393 /* field */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = field;
-			sourceTree = "<group>";
-		};
 		9B7F0C402011117700892393 /* ships */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,16 +91,10 @@
 			path = player;
 			sourceTree = "<group>";
 		};
-		9B7F0C53201126AD00892393 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		9B7F0C54201126CB00892393 /* media */ = {
 			isa = PBXGroup;
 			children = (
+				9B9066CC2017BD3400694AED /* battlefield-background.png */,
 				9B7F0C55201126F600892393 /* Battleship_Missouri.jpg */,
 			);
 			path = media;
@@ -143,10 +132,8 @@
 				9B7F0C54201126CB00892393 /* media */,
 				9B7F0C502011201F00892393 /* player */,
 				9B7F0C402011117700892393 /* ships */,
-				9B7F0C3F2011116900892393 /* field */,
 				9B7F0C3E2011115D00892393 /* game */,
 				9B7F0C3D2011114A00892393 /* enums */,
-				9B7F0C53201126AD00892393 /* ViewControllers */,
 				9B8A2C6B2007CFE800ADCDF0 /* AppDelegate.swift */,
 				9B8A2C6D2007CFE800ADCDF0 /* ViewController.swift */,
 				9B8A2C6F2007CFE800ADCDF0 /* Assets.xcassets */,
@@ -227,6 +214,7 @@
 			files = (
 				9B7F0C56201126F600892393 /* Battleship_Missouri.jpg in Resources */,
 				9B8A2C702007CFE800ADCDF0 /* Assets.xcassets in Resources */,
+				9B9066CD2017BD3400694AED /* battlefield-background.png in Resources */,
 				9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
