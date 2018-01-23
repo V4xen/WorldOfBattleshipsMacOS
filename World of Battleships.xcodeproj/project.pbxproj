@@ -1,0 +1,412 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9B7F0C45201111CB00892393 /* player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C44201111CB00892393 /* player.swift */; };
+		9B7F0C4B201115A200892393 /* ships-enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C4A201115A200892393 /* ships-enum.swift */; };
+		9B7F0C4D2011170F00892393 /* ship-class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C4C2011170F00892393 /* ship-class.swift */; };
+		9B7F0C4F20111FBC00892393 /* game-states.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C4E20111FBC00892393 /* game-states.swift */; };
+		9B7F0C52201125C600892393 /* ship-directories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C51201125C600892393 /* ship-directories.swift */; };
+		9B7F0C56201126F600892393 /* Battleship_Missouri.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F0C55201126F600892393 /* Battleship_Missouri.jpg */; };
+		9B7F0C58201128D100892393 /* game-main-class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C57201128D100892393 /* game-main-class.swift */; };
+		9B7F0C5B20112C1400892393 /* point-struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7F0C5A20112C1400892393 /* point-struct.swift */; };
+		9B8A2C6C2007CFE800ADCDF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A2C6B2007CFE800ADCDF0 /* AppDelegate.swift */; };
+		9B8A2C6E2007CFE800ADCDF0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A2C6D2007CFE800ADCDF0 /* ViewController.swift */; };
+		9B8A2C702007CFE800ADCDF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B8A2C6F2007CFE800ADCDF0 /* Assets.xcassets */; };
+		9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B8A2C712007CFE800ADCDF0 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9B7F0C44201111CB00892393 /* player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = player.swift; sourceTree = "<group>"; };
+		9B7F0C4A201115A200892393 /* ships-enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ships-enum.swift"; sourceTree = "<group>"; };
+		9B7F0C4C2011170F00892393 /* ship-class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ship-class.swift"; sourceTree = "<group>"; };
+		9B7F0C4E20111FBC00892393 /* game-states.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "game-states.swift"; sourceTree = "<group>"; };
+		9B7F0C51201125C600892393 /* ship-directories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ship-directories.swift"; sourceTree = "<group>"; };
+		9B7F0C55201126F600892393 /* Battleship_Missouri.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Battleship_Missouri.jpg; sourceTree = "<group>"; };
+		9B7F0C57201128D100892393 /* game-main-class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "game-main-class.swift"; sourceTree = "<group>"; };
+		9B7F0C5A20112C1400892393 /* point-struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "point-struct.swift"; sourceTree = "<group>"; };
+		9B8A2C682007CFE700ADCDF0 /* World of Battleships.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "World of Battleships.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B8A2C6B2007CFE800ADCDF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9B8A2C6D2007CFE800ADCDF0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9B8A2C6F2007CFE800ADCDF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9B8A2C722007CFE800ADCDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9B8A2C742007CFE800ADCDF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B8A2C752007CFE800ADCDF0 /* World_of_Battleships.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = World_of_Battleships.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9B8A2C652007CFE700ADCDF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9B7F0C3D2011114A00892393 /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C4A201115A200892393 /* ships-enum.swift */,
+				9B7F0C4E20111FBC00892393 /* game-states.swift */,
+				9B7F0C51201125C600892393 /* ship-directories.swift */,
+			);
+			path = enums;
+			sourceTree = "<group>";
+		};
+		9B7F0C3E2011115D00892393 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C57201128D100892393 /* game-main-class.swift */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
+		9B7F0C3F2011116900892393 /* field */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = field;
+			sourceTree = "<group>";
+		};
+		9B7F0C402011117700892393 /* ships */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C4C2011170F00892393 /* ship-class.swift */,
+			);
+			path = ships;
+			sourceTree = "<group>";
+		};
+		9B7F0C502011201F00892393 /* player */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C44201111CB00892393 /* player.swift */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
+		9B7F0C53201126AD00892393 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9B7F0C54201126CB00892393 /* media */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C55201126F600892393 /* Battleship_Missouri.jpg */,
+			);
+			path = media;
+			sourceTree = "<group>";
+		};
+		9B7F0C5920112BF500892393 /* workers */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C5A20112C1400892393 /* point-struct.swift */,
+			);
+			path = workers;
+			sourceTree = "<group>";
+		};
+		9B8A2C5F2007CFE700ADCDF0 = {
+			isa = PBXGroup;
+			children = (
+				9B8A2C6A2007CFE700ADCDF0 /* World of Battleships */,
+				9B8A2C692007CFE700ADCDF0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9B8A2C692007CFE700ADCDF0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B8A2C682007CFE700ADCDF0 /* World of Battleships.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B8A2C6A2007CFE700ADCDF0 /* World of Battleships */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F0C5920112BF500892393 /* workers */,
+				9B7F0C54201126CB00892393 /* media */,
+				9B7F0C502011201F00892393 /* player */,
+				9B7F0C402011117700892393 /* ships */,
+				9B7F0C3F2011116900892393 /* field */,
+				9B7F0C3E2011115D00892393 /* game */,
+				9B7F0C3D2011114A00892393 /* enums */,
+				9B7F0C53201126AD00892393 /* ViewControllers */,
+				9B8A2C6B2007CFE800ADCDF0 /* AppDelegate.swift */,
+				9B8A2C6D2007CFE800ADCDF0 /* ViewController.swift */,
+				9B8A2C6F2007CFE800ADCDF0 /* Assets.xcassets */,
+				9B8A2C712007CFE800ADCDF0 /* Main.storyboard */,
+				9B8A2C742007CFE800ADCDF0 /* Info.plist */,
+				9B8A2C752007CFE800ADCDF0 /* World_of_Battleships.entitlements */,
+			);
+			path = "World of Battleships";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9B8A2C672007CFE700ADCDF0 /* World of Battleships */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B8A2C782007CFE800ADCDF0 /* Build configuration list for PBXNativeTarget "World of Battleships" */;
+			buildPhases = (
+				9B8A2C642007CFE700ADCDF0 /* Sources */,
+				9B8A2C652007CFE700ADCDF0 /* Frameworks */,
+				9B8A2C662007CFE700ADCDF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "World of Battleships";
+			productName = "World of Battleships";
+			productReference = 9B8A2C682007CFE700ADCDF0 /* World of Battleships.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9B8A2C602007CFE700ADCDF0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Vaxen van Qualn'ryne";
+				TargetAttributes = {
+					9B8A2C672007CFE700ADCDF0 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9B8A2C632007CFE700ADCDF0 /* Build configuration list for PBXProject "World of Battleships" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9B8A2C5F2007CFE700ADCDF0;
+			productRefGroup = 9B8A2C692007CFE700ADCDF0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9B8A2C672007CFE700ADCDF0 /* World of Battleships */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B8A2C662007CFE700ADCDF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B7F0C56201126F600892393 /* Battleship_Missouri.jpg in Resources */,
+				9B8A2C702007CFE800ADCDF0 /* Assets.xcassets in Resources */,
+				9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9B8A2C642007CFE700ADCDF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B8A2C6E2007CFE800ADCDF0 /* ViewController.swift in Sources */,
+				9B7F0C4F20111FBC00892393 /* game-states.swift in Sources */,
+				9B7F0C45201111CB00892393 /* player.swift in Sources */,
+				9B7F0C4B201115A200892393 /* ships-enum.swift in Sources */,
+				9B7F0C4D2011170F00892393 /* ship-class.swift in Sources */,
+				9B8A2C6C2007CFE800ADCDF0 /* AppDelegate.swift in Sources */,
+				9B7F0C5B20112C1400892393 /* point-struct.swift in Sources */,
+				9B7F0C52201125C600892393 /* ship-directories.swift in Sources */,
+				9B7F0C58201128D100892393 /* game-main-class.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9B8A2C712007CFE800ADCDF0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B8A2C722007CFE800ADCDF0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9B8A2C762007CFE800ADCDF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9B8A2C772007CFE800ADCDF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		9B8A2C792007CFE800ADCDF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "World of Battleships/World_of_Battleships.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "World of Battleships/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "vaXen.World-of-Battleships";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		9B8A2C7A2007CFE800ADCDF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "World of Battleships/World_of_Battleships.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "World of Battleships/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "vaXen.World-of-Battleships";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9B8A2C632007CFE700ADCDF0 /* Build configuration list for PBXProject "World of Battleships" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B8A2C762007CFE800ADCDF0 /* Debug */,
+				9B8A2C772007CFE800ADCDF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B8A2C782007CFE800ADCDF0 /* Build configuration list for PBXNativeTarget "World of Battleships" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B8A2C792007CFE800ADCDF0 /* Debug */,
+				9B8A2C7A2007CFE800ADCDF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9B8A2C602007CFE700ADCDF0 /* Project object */;
+}
