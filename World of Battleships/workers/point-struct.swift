@@ -9,6 +9,16 @@
 import Foundation
 
 struct point {
+    
+    var hitted: Bool? {
+        set(new) {
+            hitted = new;
+        }
+        get {
+            return self.hitted;
+        }
+    }
+    
     var X: Int? {
         set(new) {
             X = new;
@@ -26,14 +36,20 @@ struct point {
         }
     }
     
+    
+    
     init() {
-        X=nil;
-        Y=nil;
+        self.X = nil;
+        self.Y = nil;
+        hitted=false
+        
     }
     
-    init(x: Int, y: Int) {
-        X = x;
-        Y = y;
+    init(x: Int, y: Int, _hit: Bool) {
+        self.X = x;
+        self.Y = y;
+        hitted=false
+        
     }
     
 }

@@ -22,6 +22,9 @@ class ViewController: NSViewController {
         }
     }
 
-
+    @IBAction func ExitAction(_ sender: NSButton) {
+        exit(0);
+    }
+    
 }
 

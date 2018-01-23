@@ -43,39 +43,40 @@ class Ship {
             healthPoints = 0;
         case ShipType.Submarine1:
             healthPoints = 1;
-            XYpoints.append(point(x: _Xpos, y: _Ypos));
+            XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false));
         case ShipType.Frigate2:
             healthPoints = 2;
-            XYpoints.append(point(x: _Xpos, y: _Ypos))
+            XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false))
             if (direction == ShipDirection.Horizontal) {
-                XYpoints.append(point(x: _Xpos + 1, y: _Ypos));
+                XYpoints.append(point(x: _Xpos + 1, y: _Ypos, _hit: false));
             } else if (direction == ShipDirection.Vertical) {
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 1));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 1, _hit: false));
             }
             
         case ShipType.Cruiser3:
             healthPoints = 3;
-            XYpoints.append(point(x: _Xpos, y: _Ypos))
+            XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false))
             if (direction == ShipDirection.Horizontal) {
-                XYpoints.append(point(x: _Xpos + 1, y: _Ypos));
-                XYpoints.append(point(x: _Xpos + 2, y: _Ypos));
+                XYpoints.append(point(x: _Xpos + 1, y: _Ypos, _hit: false));
+                XYpoints.append(point(x: _Xpos + 2, y: _Ypos, _hit: false));
             } else if (direction == ShipDirection.Vertical) {
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 1));
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 2));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 1, _hit: false));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 2, _hit: false));
             }
         case ShipType.Battleships4:
             healthPoints = 4;
-            XYpoints.append(point(x: _Xpos, y: _Ypos))
+            XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false))
             if (direction == ShipDirection.Horizontal) {
-                XYpoints.append(point(x: _Xpos + 1, y: _Ypos));
-                XYpoints.append(point(x: _Xpos + 2, y: _Ypos));
-                XYpoints.append(point(x: _Xpos + 3, y: _Ypos));
+                XYpoints.append(point(x: _Xpos + 1, y: _Ypos, _hit: false));
+                XYpoints.append(point(x: _Xpos + 2, y: _Ypos, _hit: false));
+                XYpoints.append(point(x: _Xpos + 3, y: _Ypos, _hit: false));
             } else if (direction == ShipDirection.Vertical) {
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 1));
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 2));
-                XYpoints.append(point(x: _Xpos, y: _Ypos + 3));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 1, _hit: false));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 2, _hit: false));
+                XYpoints.append(point(x: _Xpos, y: _Ypos + 3, _hit: false));
             }
         }
+        
         
         
     }

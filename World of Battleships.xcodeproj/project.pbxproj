@@ -19,6 +19,8 @@
 		9B8A2C6E2007CFE800ADCDF0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8A2C6D2007CFE800ADCDF0 /* ViewController.swift */; };
 		9B8A2C702007CFE800ADCDF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B8A2C6F2007CFE800ADCDF0 /* Assets.xcassets */; };
 		9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B8A2C712007CFE800ADCDF0 /* Main.storyboard */; };
+		9B9066C3201796B100694AED /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C2201796B100694AED /* GameController.swift */; };
+		9B9066C52017A65200694AED /* which-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C42017A65200694AED /* which-field.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		9B8A2C722007CFE800ADCDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B8A2C742007CFE800ADCDF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B8A2C752007CFE800ADCDF0 /* World_of_Battleships.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = World_of_Battleships.entitlements; sourceTree = "<group>"; };
+		9B9066C2201796B100694AED /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameController.swift; path = "World of Battleships/controllers/GameController.swift"; sourceTree = SOURCE_ROOT; };
+		9B9066C42017A65200694AED /* which-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "which-field.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 				9B7F0C4A201115A200892393 /* ships-enum.swift */,
 				9B7F0C4E20111FBC00892393 /* game-states.swift */,
 				9B7F0C51201125C600892393 /* ship-directories.swift */,
+				9B9066C42017A65200694AED /* which-field.swift */,
 			);
 			path = enums;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 		9B8A2C6A2007CFE700ADCDF0 /* World of Battleships */ = {
 			isa = PBXGroup;
 			children = (
+				9B9066C12017967300694AED /* controllers */,
 				9B7F0C5920112BF500892393 /* workers */,
 				9B7F0C54201126CB00892393 /* media */,
 				9B7F0C502011201F00892393 /* player */,
@@ -149,6 +155,15 @@
 				9B8A2C752007CFE800ADCDF0 /* World_of_Battleships.entitlements */,
 			);
 			path = "World of Battleships";
+			sourceTree = "<group>";
+		};
+		9B9066C12017967300694AED /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B9066C2201796B100694AED /* GameController.swift */,
+			);
+			name = controllers;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,11 +239,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B8A2C6E2007CFE800ADCDF0 /* ViewController.swift in Sources */,
+				9B9066C3201796B100694AED /* GameController.swift in Sources */,
 				9B7F0C4F20111FBC00892393 /* game-states.swift in Sources */,
 				9B7F0C45201111CB00892393 /* player.swift in Sources */,
 				9B7F0C4B201115A200892393 /* ships-enum.swift in Sources */,
 				9B7F0C4D2011170F00892393 /* ship-class.swift in Sources */,
 				9B8A2C6C2007CFE800ADCDF0 /* AppDelegate.swift in Sources */,
+				9B9066C52017A65200694AED /* which-field.swift in Sources */,
 				9B7F0C5B20112C1400892393 /* point-struct.swift in Sources */,
 				9B7F0C52201125C600892393 /* ship-directories.swift in Sources */,
 				9B7F0C58201128D100892393 /* game-main-class.swift in Sources */,
