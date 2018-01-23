@@ -14,7 +14,7 @@ struct point {
             X = new;
         }
         get {
-            return X;
+            return self.X;
         }
     }
     var Y: Int? {
@@ -22,7 +22,7 @@ struct point {
             Y = new;
         }
         get {
-            return Y;
+            return self.Y;
         }
     }
     

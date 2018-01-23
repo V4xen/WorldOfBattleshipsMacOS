@@ -28,7 +28,7 @@ class Player {
         name = "";
     }
     
-    func getNumberOfShipsLeft() {
+    func getNumberOfShipsLeft() -> Int {
         return submarines.count + frigates.count + cruisers.count + battleships.count;
     }
 }
