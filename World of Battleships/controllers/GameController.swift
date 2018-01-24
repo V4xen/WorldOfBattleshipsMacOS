@@ -40,10 +40,10 @@ class GameController: NSViewController {
         self.view.frame.size.height = CGFloat(height);
         
         //battlefield of player
-        GenerateBattleField(_x: 20, _y: Int(self.view.frame.height) - 20, ButtonCount: Game.FieldSize, WhichPlayerField: .Player);
+        GenerateBattleField(_x: 20, _y: Int(self.view.frame.height) - 40, ButtonCount: Game.FieldSize, WhichPlayerField: .Player);
         
         //battlefield of computer
-        GenerateBattleField(_x: (Int(self.view.frame.size.width) / 2) + 20, _y: Int(self.view.frame.height) - 20, ButtonCount: Game.FieldSize, WhichPlayerField: .Computer);
+        GenerateBattleField(_x: (Int(self.view.frame.size.width) / 2) + 20, _y: Int(self.view.frame.height) - 40, ButtonCount: Game.FieldSize, WhichPlayerField: .Computer);
     }
     
     func GenerateBattleField(_x: Int, _y: Int, ButtonCount: Int, WhichPlayerField: WhichField) -> Void {
