@@ -8,15 +8,42 @@
 
 import Foundation
 
+
 class MainGame {
     
-    var state = GameState.Starting;
+    var state = GameState.Initializing;
     var FieldSize: Int;
     
+    var playerField: [Hitbox];
+    var computerField: [Hitbox];
+    
+    var player: Player;
+    var computer: Player;
+    
+    //ships counter - how many ships should have one player
+    var numberOfFigthers1: Int
+    var numberOfHunters2: Int
+    var numberOfCruisers3: Int
+    var numberOfBattleships4: Int
     
     init(_fieldsize: Int) {
-        self.state = GameState.Starting;
+        self.state = GameState.Initializing;
         self.FieldSize = _fieldsize;
+        self.playerField = [];
+        self.computerField = [];
+        for _ in 0...self.FieldSize^2 {
+            self.playerField.append(Hitbox.Space)
+            self.computerField.append(Hitbox.Space)
+        }
+        
+        self.numberOfFigthers1 = 5
+        self.numberOfHunters2 = 4
+        self.numberOfCruisers3 = 3
+        self.numberOfBattleships4 = 2
+        
+        self.player = Player(_id: 1, _name: "Captian");
+        self.computer = Player(_id: 2, _name: "Enemy");
+        
     }
     
 }

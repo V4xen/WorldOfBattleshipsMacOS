@@ -8,12 +8,6 @@
 
 import Foundation
 
-//ships counter - how many ships should have one player
-var sc1x1 = 5
-var sc1x2 = 4
-var sc1x3 = 3
-var sc1x4 = 2
-
 class Ship {
     var type: ShipType;
     var Xpos: Int
@@ -41,10 +35,10 @@ class Ship {
         switch _type {
         case ShipType.none0:
             healthPoints = 0;
-        case ShipType.Submarine1:
+        case ShipType.Fighter1:
             healthPoints = 1;
             XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false));
-        case ShipType.Frigate2:
+        case ShipType.Hunter2:
             healthPoints = 2;
             XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false))
             if (direction == ShipDirection.Horizontal) {
@@ -63,7 +57,7 @@ class Ship {
                 XYpoints.append(point(x: _Xpos, y: _Ypos + 1, _hit: false));
                 XYpoints.append(point(x: _Xpos, y: _Ypos + 2, _hit: false));
             }
-        case ShipType.Battleships4:
+        case ShipType.Battleship4:
             healthPoints = 4;
             XYpoints.append(point(x: _Xpos, y: _Ypos, _hit: false))
             if (direction == ShipDirection.Horizontal) {

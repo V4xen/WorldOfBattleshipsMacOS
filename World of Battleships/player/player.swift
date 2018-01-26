@@ -13,8 +13,8 @@ class Player {
     var id: Int;
     var name: String;
     
-    var submarines = Array<Ship>();
-    var frigates = Array<Ship>();
+    var fighters = Array<Ship>();
+    var hunters = Array<Ship>();
     var cruisers = Array<Ship>();
     var battleships = Array<Ship>();
     
@@ -29,6 +29,6 @@ class Player {
     }
     
     func getNumberOfShipsLeft() -> Int {
-        return submarines.count + frigates.count + cruisers.count + battleships.count;
+        return fighters.count + hunters.count + cruisers.count + battleships.count;
     }
 }
