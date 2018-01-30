@@ -10,46 +10,24 @@ import Foundation
 
 struct point {
     
-    var hitted: Bool? {
-        set(new) {
-            hitted = new;
-        }
-        get {
-            return self.hitted;
-        }
-    }
+    var pointType: Hitbox
     
-    var X: Int? {
-        set(new) {
-            X = new;
-        }
-        get {
-            return self.X;
-        }
-    }
-    var Y: Int? {
-        set(new) {
-            Y = new;
-        }
-        get {
-            return self.Y;
-        }
-    }
-    
-    
+    var X: Int?
+    var Y: Int?
     
     init() {
         self.X = nil;
         self.Y = nil;
-        hitted=false
+        pointType = .Space;
         
     }
     
-    init(x: Int, y: Int, _hit: Bool) {
+    init(x: Int, y: Int, type: Hitbox) {
         self.X = x;
         self.Y = y;
-        hitted=false
+        pointType = type;
         
     }
     
 }
+

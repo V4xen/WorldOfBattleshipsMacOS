@@ -50,4 +50,9 @@ class TechUnits {
         return alert.runModal() == .alertFirstButtonReturn
     }
     
+    //this funct helps to change button apparience on battlefield when placing ships
+    static func setPositionOfShips(ArrayWithButton: [NSButton], tag: Int, kindOfShip: String) -> Void {
+        ArrayWithButton[tag].title = kindOfShip;
+    }
+    
 }
