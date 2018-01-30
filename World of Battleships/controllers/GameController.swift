@@ -216,7 +216,26 @@ class GameController: NSViewController {
                     
                 case ShipType.Hunter2:
                     
-                    if (Game.numberOfHunters2 > 0) {
+                    var canBePlaced = true;
+                    var item: Int;
+                    for i in 0...1 {
+                        if (selectedShipOrientation == .Vertical) {
+                            item = (row + i) * Game.FieldSize + column;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                        if (selectedShipOrientation == .Horizontal) {
+                            item = (row) * Game.FieldSize + column + i;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (Game.numberOfHunters2 > 0 && canBePlaced == true) {
                         
                         //1. change button title:
                         TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
@@ -260,7 +279,26 @@ class GameController: NSViewController {
                     
                 case ShipType.Cruiser3:
                     
-                    if (Game.numberOfCruisers3 > 0) {
+                    var canBePlaced = true;
+                    var item: Int;
+                    for i in 0...2 {
+                        if (selectedShipOrientation == .Vertical) {
+                            item = (row + i) * Game.FieldSize + column;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                        if (selectedShipOrientation == .Horizontal) {
+                            item = (row) * Game.FieldSize + column + i;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (Game.numberOfCruisers3 > 0 && canBePlaced == true) {
                         
                         //1. change button title:
                         TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
@@ -317,7 +355,26 @@ class GameController: NSViewController {
                     
                 case ShipType.Battleship4:
                     
-                    if (Game.numberOfBattleships4 > 0) {
+                    var canBePlaced = true;
+                    var item: Int;
+                    for i in 0...3 {
+                        if (selectedShipOrientation == .Vertical) {
+                            item = (row + i) * Game.FieldSize + column;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                        if (selectedShipOrientation == .Horizontal) {
+                            item = (row) * Game.FieldSize + column + i;
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (Game.numberOfBattleships4 > 0 && canBePlaced == true) {
                         
                         //1. change button title:
                         TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
