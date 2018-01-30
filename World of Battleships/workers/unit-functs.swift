@@ -12,8 +12,8 @@ import Cocoa
 class TechUnits {
     
     //enable or disable selected battlefield
-    static func turnOnOffBattlefield(ArrayWithButton: [NSButton], isON: Bool) -> Void {
-        if(isON == false){
+    static func turnOnOffBattlefield(ArrayWithButton: [NSButton], switchTo: Bool) -> Void {
+        if(switchTo == false){
             for item in 0...ArrayWithButton.count - 1 {
                 ArrayWithButton[item].isEnabled = false;
             }
@@ -50,6 +50,8 @@ class TechUnits {
         return alert.runModal() == .alertFirstButtonReturn
     }
     
+    
+    // DEPRECATED
     //this funct helps to change button apparience on battlefield when placing ships
     static func setPositionOfShips(ArrayWithButton: [NSButton], tag: Int, kindOfShip: String) -> Void {
         ArrayWithButton[tag].title = kindOfShip;
