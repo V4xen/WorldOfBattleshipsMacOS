@@ -47,4 +47,8 @@ class MainGame {
         
     }
     
+    func numberOfShipsLeftToPlace() -> Int {
+        return numberOfCruisers3+numberOfHunters2+numberOfFigthers1+numberOfBattleships4;
+    }
+    
 }

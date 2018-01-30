@@ -185,17 +185,14 @@ class GameController: NSViewController {
          ################# CHANGE OF GAME STATE: Placing Ships ####################
         */
         if (Game.state == GameState.PlacingShips) {
-            let shipsToPlaceLeft = Game.numberOfFigthers1+Game.numberOfHunters2+Game.numberOfCruisers3+Game.numberOfBattleships4;
-            if shipsToPlaceLeft > 0 {
+            if Game.numberOfShipsLeftToPlace() > 0 {
                 switch selectedShipToAdding {
                     
                 case ShipType.Fighter1:
                     
                     if (Game.numberOfFigthers1 > 0 && Game.playerField[button.tag] == .Space) {
                         //1. change button title:
-                        button.attributedTitle = NSMutableAttributedString(string: "F", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.1, green: 0.4, blue: 0.4, alpha: 0.7);
+                        TechUnits.setButtonProporties(button: button, _title: "F", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.1, _bgC_green: 0.4, _bgC_blue: 0.4, _bgC_alpha: 0.7)
                         
                         //2. add ship to ships array of player
                         Game.player.fighters.append(Ship(_type: .Fighter1, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .Fighter));
@@ -214,6 +211,7 @@ class GameController: NSViewController {
                         print("Number of Fighters reached maximum or there is another ship on this field!\n");
                         
                     }
+                    
                     break;
                     
                 case ShipType.Hunter2:
@@ -221,23 +219,22 @@ class GameController: NSViewController {
                     if (Game.numberOfHunters2 > 0) {
                         
                         //1. change button title:
-                        button.attributedTitle = NSMutableAttributedString(string: "H", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.2, green: 0.3, blue: 0.6, alpha: 0.7);
+                        TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
                         if selectedShipOrientation == .Vertical {
+                            
                             let tag = (row + 1) * Game.FieldSize + column;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "H", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.2, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.HunterPart;
                         }
                         if selectedShipOrientation == .Horizontal {
+                            
                             let tag = row * Game.FieldSize + column + 1;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "H", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.2, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.HunterPart;
@@ -252,12 +249,13 @@ class GameController: NSViewController {
                         //4. count ships placed
                         Game.numberOfHunters2 -= 1;
                         
-                        print("Fighter placed at R:\(row) C:\(column)\n");
+                        print("Hunter placed at R:\(row) C:\(column)\n");
                         
                     } else {
                         
-                        print("Number of Fighters reached maximum!\n");
+                        print("Number of Hunters reached maximum!\n");
                     }
+                    
                     break;
                     
                 case ShipType.Cruiser3:
@@ -265,39 +263,35 @@ class GameController: NSViewController {
                     if (Game.numberOfCruisers3 > 0) {
                         
                         //1. change button title:
-                        button.attributedTitle = NSMutableAttributedString(string: "C", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                        (button.cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.5, green: 0.3, blue: 0.6, alpha: 0.7);
+                        TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
                         if selectedShipOrientation == .Vertical {
                             var tag = (row + 1) * Game.FieldSize + column;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "C", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.5, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.CruiserPart;
                             
                             tag = (row + 2) * Game.FieldSize + column;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "C", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.5, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.CruiserPart;
                         }
                         if selectedShipOrientation == .Horizontal {
                             var tag = row * Game.FieldSize + column + 1;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "C", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.5, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.HunterPart;
                             
                             tag = row * Game.FieldSize + column + 2;
-                            playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "C", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
-                            (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.5, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
                             
                             // add ship at correct position in array of hitboxes
                             Game.playerField[tag] = Hitbox.CruiserPart;
@@ -312,17 +306,84 @@ class GameController: NSViewController {
                         //4. count ships placed
                         Game.numberOfCruisers3 -= 1;
                         
-                        print("Fighter placed at R:\(row) C:\(column)\n");
+                        print("Cruiser placed at R:\(row) C:\(column)\n");
                         
                     } else {
                         
-                        print("Number of Fighters reached maximum!\n");
+                        print("Number of Cruisers reached maximum!\n");
                     }
+                    
                     break;
                     
                 case ShipType.Battleship4:
                     
-                    print("Battleship placed at R:\(row) C:\(column)\n");
+                    if (Game.numberOfBattleships4 > 0) {
+                        
+                        //1. change button title:
+                        TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        if selectedShipOrientation == .Vertical {
+                            
+                            var tag = (row + 1) * Game.FieldSize + column;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                            
+                            tag = (row + 2) * Game.FieldSize + column;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                            
+                            tag = (row + 3) * Game.FieldSize + column;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                        }
+                        if selectedShipOrientation == .Horizontal {
+                            var tag = row * Game.FieldSize + column + 1;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                            
+                            tag = row * Game.FieldSize + column + 2;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                            
+                            tag = row * Game.FieldSize + column + 3;
+                            
+                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.BattleshipPart;
+                        }
+                        
+                        //2. add ship to ships array of player
+                        Game.player.cruisers.append(Ship(_type: .Battleship4, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .BattleshipPart));
+                        
+                        //3. add ship at correct position in array of hitboxes
+                        // it's above in point 1. inside each other "if" statement
+                        
+                        //4. count ships placed
+                        Game.numberOfBattleships4 -= 1;
+                        
+                        print("Battleship placed at R:\(row) C:\(column)\n");
+                        
+                    } else {
+                        
+                        print("Number of Battleships reached maximum!\n");
+                    }
+                    
                     break;
                     
                 default:
@@ -330,7 +391,7 @@ class GameController: NSViewController {
                     return;
                 }
             }
-            if shipsToPlaceLeft == 0 {
+            if (Game.numberOfShipsLeftToPlace() == 0) {
                 Game.state = GameState.PlayerTurn;
                 //here should be generated computers field
                 
@@ -338,7 +399,7 @@ class GameController: NSViewController {
                 TechUnits.turnOnOffBattlefield(ArrayWithButton: computerButtonsField, switchTo: true)
             }
         }
-        
+
     }
     
     @objc func selectShipToAdd(button: NSButton){
