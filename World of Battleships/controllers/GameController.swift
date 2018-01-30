@@ -229,19 +229,25 @@ class GameController: NSViewController {
                             playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "H", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
                             (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
                             (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.2, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.HunterPart;
                         }
                         if selectedShipOrientation == .Vertical {
                             let tag = row * Game.FieldSize + column + 1;
                             playerButtonsField[tag].attributedTitle = NSMutableAttributedString(string: "H", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
                             (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.clear;
                             (playerButtonsField[tag].cell as! NSButtonCell).backgroundColor = NSColor.init(red: 0.2, green: 0.3, blue: 0.6, alpha: 0.7);
+                            
+                            // add ship at correct position in array of hitboxes
+                            Game.playerField[tag] = Hitbox.HunterPart;
                         }
                         
                         //2. add ship to ships array of player
-                        //
+                        Game.player.hunters.append(Ship(_type: .Hunter2, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .HunterPart));
                         
                         //3. add ship at correct position in array of hitboxes
-                        //
+                        // it's above in point 1. inside each other "if" statement
                         
                         //4. count ships placed
                         Game.numberOfHunters2 -= 1;
