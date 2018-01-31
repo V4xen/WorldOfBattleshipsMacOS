@@ -58,10 +58,13 @@ class GameController: NSViewController {
         
         //generate playerConsole
         playerConsole.backgroundColor = NSColor.black;
+        playerConsole.textColor = NSColor.init(red: 0.35352, green: 1, blue: 0.01960, alpha: 1);
+        playerConsoleWrite(text: "", to: playerConsole)
         playerConsole.isEditable = false;
         self.view.addSubview(playerConsole);
         
         Game.state = GameState.PlacingShips;
+        playerConsoleWrite(text: "Select ship to place...", to: playerConsole)
         
         //disable for now computer field (only for placing ships
         TechUnits.turnOnOffBattlefield(ArrayWithButton: computerButtonsField, switchTo: false)
@@ -69,6 +72,45 @@ class GameController: NSViewController {
         //further code
         //......
         //......
+    }
+    
+    
+    @objc func buttonPressed(button: NSButton) {
+        let column: Int = button.tag % Game.FieldSize;
+        let row: Int = button.tag / Game.FieldSize;
+        
+        print("[Row:\(row): Column:\(column)]")
+        print("Button.Tag = \(button.tag)")
+        
+        
+        /*
+         ################# CHANGE OF GAME STATE: Placing Ships ####################
+         */
+        if (Game.state == GameState.PlacingShips) {
+            placeShip(button: button);
+            updatePlayerConsole();
+            
+        }
+        if (Game.state == GameState.PlaceComputerShips) {
+            playerConsoleWrite(text: "\n\t:-)", to: playerConsole);
+            //here should be generated computers field
+            
+            TechUnits.turnOnOffBattlefield(ArrayWithButton: playerButtonsField, switchTo: false)
+            TechUnits.turnOnOffBattlefield(ArrayWithButton: computerButtonsField, switchTo: true)
+        }
+        
+    }
+    
+    func playerConsoleWrite(text: String, to: NSText) {
+        if (Game.state == GameState.Initializing) {
+            to.string = "\tGame is initialized... \n\n\tJust Wait..."
+        }
+        if (Game.state == GameState.PlacingShips) {
+            to.string = "\nNow is your turn to place ships. Select ship from botton and\nplace it on battlefield\n\n" + text + "\n\nAll ships left: \(Game.numberOfShipsLeftToPlace())";
+        }
+        if (Game.state == GameState.PlaceComputerShips) {
+            to.string = "\nWait for computer to place his ships\n" + text;
+        }
     }
     
     func GenerateBattleField(_x: Int, _y: Int, ButtonCount: Int, WhichPlayerField: WhichField) -> Void {
@@ -173,290 +215,23 @@ class GameController: NSViewController {
         self.view.addSubview(dirButton);
     }
     
-    @objc func buttonPressed(button: NSButton) {
-        let column: Int = button.tag % Game.FieldSize;
-        let row: Int = button.tag / Game.FieldSize;
-        
-        print("[Row:\(row): Column:\(column)]")
-        print("Button.Tag = \(button.tag)")
-        
-        
-        /*
-         ################# CHANGE OF GAME STATE: Placing Ships ####################
-        */
-        if (Game.state == GameState.PlacingShips) {
-            if Game.numberOfShipsLeftToPlace() > 0 {
-                switch selectedShipToAdding {
-                    
-                case ShipType.Fighter1:
-                    
-                    if (Game.numberOfFigthers1 > 0 && Game.playerField[button.tag] == .Space) {
-                        //1. change button title:
-                        TechUnits.setButtonProporties(button: button, _title: "F", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.1, _bgC_green: 0.4, _bgC_blue: 0.4, _bgC_alpha: 0.7)
-                        
-                        //2. add ship to ships array of player
-                        Game.player.fighters.append(Ship(_type: .Fighter1, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .Fighter));
-                        
-                        //3. add ship at correct position in array of hitboxes
-                        let tag = (row) * Game.FieldSize + column;
-                        Game.playerField[tag] = Hitbox.Fighter;
-                        
-                        //4. count ships placed
-                        Game.numberOfFigthers1 -= 1;
-                        
-                        print("Fighter placed at R:\(row) C:\(column)\n");
-                        
-                    } else {
-                        
-                        print("Number of Fighters reached maximum or there is another ship on this field!\n");
-                        
-                    }
-                    
-                    break;
-                    
-                case ShipType.Hunter2:
-                    
-                    var canBePlaced = true;
-                    var item: Int;
-                    for i in 0...1 {
-                        if (selectedShipOrientation == .Vertical) {
-                            item = (row + i) * Game.FieldSize + column;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                        if (selectedShipOrientation == .Horizontal) {
-                            item = (row) * Game.FieldSize + column + i;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if (Game.numberOfHunters2 > 0 && canBePlaced == true) {
-                        
-                        //1. change button title:
-                        TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                        
-                        if selectedShipOrientation == .Vertical {
-                            
-                            let tag = (row + 1) * Game.FieldSize + column;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.HunterPart;
-                        }
-                        if selectedShipOrientation == .Horizontal {
-                            
-                            let tag = row * Game.FieldSize + column + 1;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.HunterPart;
-                        }
-                        
-                        //2. add ship to ships array of player
-                        Game.player.hunters.append(Ship(_type: .Hunter2, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .HunterPart));
-                        
-                        //3. add ship at correct position in array of hitboxes
-                        // it's above in point 1. inside each other "if" statement
-                        
-                        //4. count ships placed
-                        Game.numberOfHunters2 -= 1;
-                        
-                        print("Hunter placed at R:\(row) C:\(column)\n");
-                        
-                    } else {
-                        
-                        print("Number of Hunters reached maximum!\n");
-                    }
-                    
-                    break;
-                    
-                case ShipType.Cruiser3:
-                    
-                    var canBePlaced = true;
-                    var item: Int;
-                    for i in 0...2 {
-                        if (selectedShipOrientation == .Vertical) {
-                            item = (row + i) * Game.FieldSize + column;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                        if (selectedShipOrientation == .Horizontal) {
-                            item = (row) * Game.FieldSize + column + i;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if (Game.numberOfCruisers3 > 0 && canBePlaced == true) {
-                        
-                        //1. change button title:
-                        TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                        
-                        if selectedShipOrientation == .Vertical {
-                            var tag = (row + 1) * Game.FieldSize + column;
-                            
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.CruiserPart;
-                            
-                            tag = (row + 2) * Game.FieldSize + column;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.CruiserPart;
-                        }
-                        if selectedShipOrientation == .Horizontal {
-                            var tag = row * Game.FieldSize + column + 1;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.HunterPart;
-                            
-                            tag = row * Game.FieldSize + column + 2;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.CruiserPart;
-                        }
-                        
-                        //2. add ship to ships array of player
-                        Game.player.cruisers.append(Ship(_type: .Cruiser3, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .CruiserPart));
-                        
-                        //3. add ship at correct position in array of hitboxes
-                        // it's above in point 1. inside each other "if" statement
-                        
-                        //4. count ships placed
-                        Game.numberOfCruisers3 -= 1;
-                        
-                        print("Cruiser placed at R:\(row) C:\(column)\n");
-                        
-                    } else {
-                        
-                        print("Number of Cruisers reached maximum!\n");
-                    }
-                    
-                    break;
-                    
-                case ShipType.Battleship4:
-                    
-                    var canBePlaced = true;
-                    var item: Int;
-                    for i in 0...3 {
-                        if (selectedShipOrientation == .Vertical) {
-                            item = (row + i) * Game.FieldSize + column;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                        if (selectedShipOrientation == .Horizontal) {
-                            item = (row) * Game.FieldSize + column + i;
-                            if (Game.playerField[item] != .Space) {
-                                canBePlaced = false;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if (Game.numberOfBattleships4 > 0 && canBePlaced == true) {
-                        
-                        //1. change button title:
-                        TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                        
-                        if selectedShipOrientation == .Vertical {
-                            
-                            var tag = (row + 1) * Game.FieldSize + column;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                            
-                            tag = (row + 2) * Game.FieldSize + column;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                            
-                            tag = (row + 3) * Game.FieldSize + column;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                        }
-                        if selectedShipOrientation == .Horizontal {
-                            var tag = row * Game.FieldSize + column + 1;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                            
-                            tag = row * Game.FieldSize + column + 2;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                            
-                            tag = row * Game.FieldSize + column + 3;
-                            
-                            TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
-                            
-                            // add ship at correct position in array of hitboxes
-                            Game.playerField[tag] = Hitbox.BattleshipPart;
-                        }
-                        
-                        //2. add ship to ships array of player
-                        Game.player.cruisers.append(Ship(_type: .Battleship4, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .BattleshipPart));
-                        
-                        //3. add ship at correct position in array of hitboxes
-                        // it's above in point 1. inside each other "if" statement
-                        
-                        //4. count ships placed
-                        Game.numberOfBattleships4 -= 1;
-                        
-                        print("Battleship placed at R:\(row) C:\(column)\n");
-                        
-                    } else {
-                        
-                        print("Number of Battleships reached maximum!\n");
-                    }
-                    
-                    break;
-                    
-                default:
-                    print("Error, no ship to place");
-                    return;
-                }
-            }
-            if (Game.numberOfShipsLeftToPlace() == 0) {
-                Game.state = GameState.PlayerTurn;
-                //here should be generated computers field
-                
-                TechUnits.turnOnOffBattlefield(ArrayWithButton: playerButtonsField, switchTo: false)
-                TechUnits.turnOnOffBattlefield(ArrayWithButton: computerButtonsField, switchTo: true)
-            }
+    func updatePlayerConsole() {
+        switch selectedShipToAdding {
+        case ShipType.Fighter1:
+            playerConsoleWrite(text: "Fighters left to place: \(Game.numberOfFigthers1)", to: playerConsole);
+            break;
+        case ShipType.Hunter2:
+            playerConsoleWrite(text: "Hunters left to place: \(Game.numberOfHunters2)", to: playerConsole);
+            break;
+        case ShipType.Cruiser3:
+            playerConsoleWrite(text: "Cruisers left to place: \(Game.numberOfCruisers3)", to: playerConsole);
+            break;
+        case ShipType.Battleship4:
+            playerConsoleWrite(text: "Battleships left to place: \(Game.numberOfBattleships4)", to: playerConsole);
+            break
+        default:
+            return
         }
-
     }
     
     @objc func selectShipToAdd(button: NSButton){
@@ -464,18 +239,22 @@ class GameController: NSViewController {
         case 0:
             selectedShipToAdding = ShipType.Fighter1;
             print("0")
+            playerConsoleWrite(text: "Fighters left to place: \(Game.numberOfFigthers1)", to: playerConsole);
             break;
         case 1:
             selectedShipToAdding = ShipType.Hunter2;
             print("1")
+            playerConsoleWrite(text: "Hunters left to place: \(Game.numberOfHunters2)", to: playerConsole);
             break
         case 2:
             selectedShipToAdding = ShipType.Cruiser3;
             print("2")
+            playerConsoleWrite(text: "Cruisers left to place: \(Game.numberOfCruisers3)", to: playerConsole);
             break
         case 3:
             selectedShipToAdding = ShipType.Battleship4;
             print("3")
+            playerConsoleWrite(text: "Battleships left to place: \(Game.numberOfBattleships4)", to: playerConsole);
             break
         default:
             return
@@ -491,6 +270,326 @@ class GameController: NSViewController {
         } else if (selectedShipOrientation == ShipDirection.Vertical) {
             button.attributedTitle = NSMutableAttributedString(string: "-- Horizontal --", attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: 0.57, saturation: 1, brightness: 1, alpha: 1), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
             selectedShipOrientation = ShipDirection.Horizontal;
+        }
+    }
+    
+    func placeShip(button: NSButton) {
+        let column: Int = button.tag % Game.FieldSize;
+        let row: Int = button.tag / Game.FieldSize;
+        
+        print("[Row:\(row): Column:\(column)]")
+        print("Button.Tag = \(button.tag)")
+        
+        if Game.numberOfShipsLeftToPlace() > 0 {
+            switch selectedShipToAdding {
+                
+            case ShipType.Fighter1:
+                
+                if (Game.numberOfFigthers1 > 0 && Game.playerField[button.tag] == .Space) {
+                    //1. change button title:
+                    TechUnits.setButtonProporties(button: button, _title: "F", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.1, _bgC_green: 0.4, _bgC_blue: 0.4, _bgC_alpha: 0.7)
+                    
+                    //2. add ship to ships array of player
+                    Game.player.fighters.append(Ship(_type: .Fighter1, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .Fighter));
+                    
+                    //3. add ship at correct position in array of hitboxes
+                    let tag = (row) * Game.FieldSize + column;
+                    Game.playerField[tag] = Hitbox.Fighter;
+                    
+                    //4. count ships placed
+                    Game.numberOfFigthers1 -= 1;
+                    
+                    print("Fighter placed at R:\(row) C:\(column)\n");
+                    
+                } else {
+                    
+                    print("Number of Fighters reached maximum or there is another ship on this field!\n");
+                    
+                }
+                
+                break;
+                
+            case ShipType.Hunter2:
+                
+                var canBePlaced = true;
+                var item: Int;
+                for i in 0...1 {
+                    if (selectedShipOrientation == .Vertical) {
+                        item = (row + i) * Game.FieldSize + column;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (selectedShipOrientation == .Horizontal) {
+                        item = (row) * Game.FieldSize + column + i;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                            if ((i > 0) && (item % Game.FieldSize == 0)) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                if (Game.numberOfHunters2 > 0 && canBePlaced == true) {
+                    
+                    //1. change button title:
+                    TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                    Game.playerField[row*Game.FieldSize+column] = Hitbox.HunterPart;
+                    
+                    if selectedShipOrientation == .Vertical {
+                        
+                        let tag = (row + 1) * Game.FieldSize + column;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.HunterPart;
+                    }
+                    if selectedShipOrientation == .Horizontal {
+                        
+                        let tag = row * Game.FieldSize + column + 1;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.HunterPart;
+                    }
+                    
+                    //2. add ship to ships array of player
+                    Game.player.hunters.append(Ship(_type: .Hunter2, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .HunterPart));
+                    
+                    //3. add ship at correct position in array of hitboxes
+                    // it's above in point 1. inside each other "if" statement
+                    
+                    //4. count ships placed
+                    Game.numberOfHunters2 -= 1;
+                    
+                    print("Hunter placed at R:\(row) C:\(column)\n");
+                    
+                } else {
+                    
+                    print("Number of Hunters reached maximum!\n");
+                }
+                
+                break;
+                
+            case ShipType.Cruiser3:
+                
+                var canBePlaced = true;
+                var item: Int;
+                for i in 0...2 {
+                    if (selectedShipOrientation == .Vertical) {
+                        item = (row + i) * Game.FieldSize + column;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (selectedShipOrientation == .Horizontal) {
+                        item = (row) * Game.FieldSize + column + i;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                            if ((i > 0) && (item % Game.FieldSize == 0)) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                if (Game.numberOfCruisers3 > 0 && canBePlaced == true) {
+                    
+                    //1. change button title:
+                    TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                    Game.playerField[row*Game.FieldSize+column] = Hitbox.CruiserPart;
+                    
+                    if selectedShipOrientation == .Vertical {
+                        var tag = (row + 1) * Game.FieldSize + column;
+                        
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.CruiserPart;
+                        
+                        tag = (row + 2) * Game.FieldSize + column;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.CruiserPart;
+                    }
+                    if selectedShipOrientation == .Horizontal {
+                        var tag = row * Game.FieldSize + column + 1;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.HunterPart;
+                        
+                        tag = row * Game.FieldSize + column + 2;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.CruiserPart;
+                    }
+                    
+                    //2. add ship to ships array of player
+                    Game.player.cruisers.append(Ship(_type: .Cruiser3, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .CruiserPart));
+                    
+                    //3. add ship at correct position in array of hitboxes
+                    // it's above in point 1. inside each other "if" statement
+                    
+                    //4. count ships placed
+                    Game.numberOfCruisers3 -= 1;
+                    
+                    print("Cruiser placed at R:\(row) C:\(column)\n");
+                    
+                } else {
+                    
+                    print("Number of Cruisers reached maximum!\n");
+                }
+                
+                break;
+                
+            case ShipType.Battleship4:
+                
+                var canBePlaced = true;
+                var item: Int;
+                for i in 0...3 {
+                    if (selectedShipOrientation == .Vertical) {
+                        item = (row + i) * Game.FieldSize + column;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (selectedShipOrientation == .Horizontal) {
+                        item = (row) * Game.FieldSize + column + i;
+                        if (item > Game.FieldSize*Game.FieldSize-1) {
+                            canBePlaced = false;
+                            break;
+                        } else {
+                            if (Game.playerField[item] != .Space) {
+                                canBePlaced = false;
+                                break;
+                            }
+                            if ((i > 0) && (item % Game.FieldSize == 0)) {
+                                canBePlaced = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                if (Game.numberOfBattleships4 > 0 && canBePlaced == true) {
+                    
+                    //1. change button title:
+                    TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                    Game.playerField[row*Game.FieldSize+column] = Hitbox.BattleshipPart;
+                    
+                    if selectedShipOrientation == .Vertical {
+                        
+                        var tag = (row + 1) * Game.FieldSize + column;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                        
+                        tag = (row + 2) * Game.FieldSize + column;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                        
+                        tag = (row + 3) * Game.FieldSize + column;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                    }
+                    if selectedShipOrientation == .Horizontal {
+                        var tag = row * Game.FieldSize + column + 1;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                        
+                        tag = row * Game.FieldSize + column + 2;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                        
+                        tag = row * Game.FieldSize + column + 3;
+                        
+                        TechUnits.setButtonProporties(button: playerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7)
+                        
+                        // add ship at correct position in array of hitboxes
+                        Game.playerField[tag] = Hitbox.BattleshipPart;
+                    }
+                    
+                    //2. add ship to ships array of player
+                    Game.player.cruisers.append(Ship(_type: .Battleship4, _Xpos: column, _Ypos: row, _direction: selectedShipOrientation, _pointType: .BattleshipPart));
+                    
+                    //3. add ship at correct position in array of hitboxes
+                    // it's above in point 1. inside each other "if" statement
+                    
+                    //4. count ships placed
+                    Game.numberOfBattleships4 -= 1;
+                    
+                    print("Battleship placed at R:\(row) C:\(column)\n");
+                    
+                } else {
+                    
+                    print("Number of Battleships reached maximum!\n");
+                }
+                
+                break;
+                
+            default:
+                print("Error, no ship to place");
+                return;
+            }
+        }
+        if (Game.numberOfShipsLeftToPlace() == 0) {
+            Game.state = GameState.PlaceComputerShips;
         }
     }
     

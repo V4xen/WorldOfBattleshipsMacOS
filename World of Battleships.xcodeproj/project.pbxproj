@@ -21,6 +21,7 @@
 		9B9066C3201796B100694AED /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C2201796B100694AED /* GameController.swift */; };
 		9B9066C52017A65200694AED /* which-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9066C42017A65200694AED /* which-field.swift */; };
 		9B9066CD2017BD3400694AED /* battlefield-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B9066CC2017BD3400694AED /* battlefield-background.png */; };
+		9BBEE74C2022310B00AC981C /* File in Resources */ = {isa = PBXBuildFile; fileRef = 9BBEE74B2022310B00AC981C /* File */; };
 		9BE9D44C201B966000E1CC90 /* hitbox-types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9D44B201B966000E1CC90 /* hitbox-types.swift */; };
 		9BE9D44E201BE41300E1CC90 /* unit-functs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE9D44D201BE41300E1CC90 /* unit-functs.swift */; };
 		9BEAE7112020C7D300F557E7 /* point-struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAE7102020C7D300F557E7 /* point-struct.swift */; };
@@ -44,6 +45,7 @@
 		9B9066C2201796B100694AED /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameController.swift; path = "World of Battleships/controllers/GameController.swift"; sourceTree = SOURCE_ROOT; };
 		9B9066C42017A65200694AED /* which-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "which-field.swift"; sourceTree = "<group>"; };
 		9B9066CC2017BD3400694AED /* battlefield-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "battlefield-background.png"; path = "World of Battleships/media/battlefield-background.png"; sourceTree = SOURCE_ROOT; };
+		9BBEE74B2022310B00AC981C /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		9BE9D44B201B966000E1CC90 /* hitbox-types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "hitbox-types.swift"; sourceTree = "<group>"; };
 		9BE9D44D201BE41300E1CC90 /* unit-functs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "unit-functs.swift"; sourceTree = "<group>"; };
 		9BEAE7102020C7D300F557E7 /* point-struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "point-struct.swift"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		9B8A2C5F2007CFE700ADCDF0 = {
 			isa = PBXGroup;
 			children = (
+				9BBEE74B2022310B00AC981C /* File */,
 				9B8A2C6A2007CFE700ADCDF0 /* World of Battleships */,
 				9B8A2C692007CFE700ADCDF0 /* Products */,
 			);
@@ -222,6 +225,7 @@
 				9B8A2C702007CFE800ADCDF0 /* Assets.xcassets in Resources */,
 				9B9066CD2017BD3400694AED /* battlefield-background.png in Resources */,
 				9B8A2C732007CFE800ADCDF0 /* Main.storyboard in Resources */,
+				9BBEE74C2022310B00AC981C /* File in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

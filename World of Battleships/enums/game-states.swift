@@ -10,7 +10,7 @@ import Foundation
 
 enum GameState {
     case Initializing
-    case PlacingShips
+    case PlacingShips,PlaceComputerShips
     case PlayerTurn, ComputerTurn
     case GameOver, Win
 }
