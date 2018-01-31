@@ -20,11 +20,16 @@ class MainGame {
     var player: Player;
     var computer: Player;
     
-    //ships counter - how many ships should have one player
-    var numberOfFigthers1: Int
-    var numberOfHunters2: Int
-    var numberOfCruisers3: Int
-    var numberOfBattleships4: Int
+    //ships counter - how many ships should have player
+    var numberOfPlayerFigthers1: Int
+    var numberOfPlayerHunters2: Int
+    var numberOfPlayerCruisers3: Int
+    var numberOfPlayerBattleships4: Int
+    
+    var numberOfComputerFigthers1: Int
+    var numberOfComputerHunters2: Int
+    var numberOfComputerCruisers3: Int
+    var numberOfComputerBattleships4: Int
     
     init(_fieldsize: Int) {
         self.state = GameState.Initializing;
@@ -37,18 +42,27 @@ class MainGame {
             self.computerField.append(Hitbox.Space)
         }
         
-        self.numberOfFigthers1 = 5
-        self.numberOfHunters2 = 4
-        self.numberOfCruisers3 = 3
-        self.numberOfBattleships4 = 2
+        self.numberOfPlayerFigthers1 = 5
+        self.numberOfPlayerHunters2 = 4
+        self.numberOfPlayerCruisers3 = 3
+        self.numberOfPlayerBattleships4 = 2
+        
+        self.numberOfComputerFigthers1 = 5
+        self.numberOfComputerHunters2 = 4
+        self.numberOfComputerCruisers3 = 3
+        self.numberOfComputerBattleships4 = 2
         
         self.player = Player(_id: 1, _name: "Captian");
         self.computer = Player(_id: 2, _name: "Enemy");
         
     }
     
-    func numberOfShipsLeftToPlace() -> Int {
-        return numberOfCruisers3+numberOfHunters2+numberOfFigthers1+numberOfBattleships4;
+    func numberOfPlayerShipsLeftToPlace() -> Int {
+        return numberOfPlayerCruisers3+numberOfPlayerHunters2+numberOfPlayerFigthers1+numberOfPlayerBattleships4;
+    }
+    
+    func numberOfComputerShipsLeftToPlace() -> Int {
+        return numberOfComputerCruisers3+numberOfComputerHunters2+numberOfComputerFigthers1+numberOfComputerBattleships4;
     }
     
 }

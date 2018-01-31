@@ -24,7 +24,6 @@ class TechUnits {
         }
     }
     
-    
     //types for generate buttons id dialogs
     enum Buttons{
         case OK
