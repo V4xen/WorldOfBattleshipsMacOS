@@ -107,7 +107,7 @@ class GameController: NSViewController {
             changeFunctionButtons();
             
             TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: true)
-            playerConsoleWrite(text: "", to: playerConsole);
+            playerConsoleWrite(text: "\nPick ammo type to shot!", to: playerConsole);
             
         } else {
             /*
@@ -1061,7 +1061,7 @@ class GameController: NSViewController {
         case .Battery:
             if (Game.player.ammo_Battery > 0) {
                 if (Game.computerField[button.tag] == .Space) {
-                    button.attributedTitle = NSMutableAttributedString(string: "💥", attributes: [NSAttributedStringKey.foregroundColor: NSColor.white, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 12), NSAttributedStringKey.paragraphStyle: pstyle])
+                    button.attributedTitle = NSMutableAttributedString(string: "💥", attributes: [NSAttributedStringKey.foregroundColor: NSColor.white, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 10), NSAttributedStringKey.paragraphStyle: pstyle])
                     button.isEnabled = false;
                     Game.computerField[button.tag] = .SpaceExplosion;
                     shooted = true;
