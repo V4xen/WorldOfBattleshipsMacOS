@@ -12,5 +12,6 @@ enum GameState {
     case Initializing
     case PlacingShips,PlaceComputerShips
     case PlayerTurn, ComputerTurn
+    case EndOfGame
     case GameOver, Win
 }

@@ -12,14 +12,15 @@ import Cocoa
 class TechUnits {
     
     //enable or disable selected battlefield
-    static func turnOnOffBattlefield(ArrayWithButton: [NSButton], switchTo: Bool) -> Void {
+    static func buttonsEnableDisable(Buttons: [NSButton], switchTo: Bool) -> Void {
         if(switchTo == false){
-            for item in 0...ArrayWithButton.count - 1 {
-                ArrayWithButton[item].isEnabled = false;
+            for item in 0...Buttons.count - 1 {
+                Buttons[item].isEnabled = false;
             }
-        } else {
-            for item in 0...ArrayWithButton.count - 1 {
-                ArrayWithButton[item].isEnabled = true;
+        }
+        if (switchTo){
+            for item in 0...Buttons.count - 1 {
+                Buttons[item].isEnabled = true;
             }
         }
     }
