@@ -46,7 +46,7 @@ class TechUnits {
         let alert = NSAlert()
         alert.messageText = question
         alert.informativeText = text
-        alert.alertStyle = .warning
+        alert.alertStyle = .informational
         
         switch buttons {
         case .OK:
