@@ -47,10 +47,10 @@ class MainGame {
         self.numberOfPlayerCruisers3 = 0
         self.numberOfPlayerBattleships4 = 0
         
-        self.numberOfComputerFigthers1 = 5
-        self.numberOfComputerHunters2 = 4
-        self.numberOfComputerCruisers3 = 3
-        self.numberOfComputerBattleships4 = 2
+        self.numberOfComputerFigthers1 = 1
+        self.numberOfComputerHunters2 = 0
+        self.numberOfComputerCruisers3 = 0
+        self.numberOfComputerBattleships4 = 0
         
         self.player = Player(_id: 1, _name: "Captian");
         self.computer = Player(_id: 2, _name: "Enemy");

@@ -32,11 +32,11 @@ class TechUnits {
     }
     
     //set buttons proporties
-    static func setButtonProporties(button: NSButton, _title: String, _butHue: CGFloat, _butSaturation: CGFloat, _butBrightness: CGFloat, _butAlpha: CGFloat, _bgC_red: CGFloat, _bgC_green: CGFloat, _bgC_blue: CGFloat, _bgC_alpha: CGFloat)
+    static func setButtonProporties(button: NSButton, _title: String, _butHue: CGFloat, _butSaturation: CGFloat, _butBrightness: CGFloat, _butAlpha: CGFloat, _bgC_red: CGFloat, _bgC_green: CGFloat, _bgC_blue: CGFloat, _bgC_alpha: CGFloat, _fontSize: CGFloat)
     {
         let pstyle = NSMutableParagraphStyle();
         pstyle.alignment = .center;
-        button.attributedTitle = NSMutableAttributedString(string: _title, attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: _butHue, saturation: _butSaturation, brightness: _butBrightness, alpha: _butAlpha), NSAttributedStringKey.font: NSFont.systemFont(ofSize: 18), NSAttributedStringKey.paragraphStyle: pstyle])
+        button.attributedTitle = NSMutableAttributedString(string: _title, attributes: [NSAttributedStringKey.foregroundColor: NSColor(calibratedHue: _butHue, saturation: _butSaturation, brightness: _butBrightness, alpha: _butAlpha), NSAttributedStringKey.font: NSFont.systemFont(ofSize: _fontSize), NSAttributedStringKey.paragraphStyle: pstyle])
         (button.cell as! NSButtonCell).backgroundColor = NSColor.clear;
         (button.cell as! NSButtonCell).backgroundColor = NSColor.init(red: _bgC_red, green: _bgC_green, blue: _bgC_blue, alpha: _bgC_alpha);
     }
