@@ -120,14 +120,20 @@ class GameController: NSViewController {
                 playerShot(button: button);
                 
                 // disable bot field for a while
-                //TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false)
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
+                Game.state = GameState.ComputerTurn;
                 
                 // update console and simulate "thinking" of bot
-                //playerConsoleWrite...
-                //sleep(2);
+                playerConsoleWrite(text: "\nComputer is shooting, just wait", to: playerConsole);
+                //sleep(2); //- bad idea!
                 
                 // computer shot function:
                 //computerShot...
+                
+                // enable bot field back
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: true);
+                Game.state = GameState.PlayerTurn;
+                updatePlayerConsole();
                 
                 if (Game.player.getAmmoLeft() == 0) {
                     Game.state = .GameOver;
@@ -170,6 +176,9 @@ class GameController: NSViewController {
         if (Game.state == GameState.PlayerTurn) {
             // write how many ammo left
             to.string = "Select type of ammunition:\t\tEnemy's ships left: \(Game.computer.getNumberOfShips())\n" + "\tBattery amunition left: \(Game.player.ammo_Battery)\n" + "\tRockets left: \(Game.player.ammo_Rockets)\n" + "\tLaser energy left: \(Game.player.ammo_Laser)\n" + "\tNuclear balistics left: \(Game.player.ammo_Nuclear)\n" + text;
+        }
+        if (Game.state == GameState.ComputerTurn) {
+            to.string = "Enemy turn - wait 'till shot...\t\tEnemy's ships left: \(Game.computer.getNumberOfShips())\n" + "\tBattery amunition left: \(Game.player.ammo_Battery)\n" + "\tRockets left: \(Game.player.ammo_Rockets)\n" + "\tLaser energy left: \(Game.player.ammo_Laser)\n" + "\tNuclear balistics left: \(Game.player.ammo_Nuclear)\n" + text;
         }
         
         if (Game.state == GameState.Win || Game.state == GameState.GameOver) {
@@ -440,7 +449,7 @@ class GameController: NSViewController {
     func placeComputerShip(button: NSButton, _shiptype: ShipType) {
         let column: Int = button.tag % Game.FieldSize;
         let row: Int = button.tag / Game.FieldSize;
-        let randomOrientation = Int(arc4random_uniform(100))%2==0 ? ShipDirection.Horizontal : ShipDirection.Vertical;
+        let randomOrientation = Int((arc4random_uniform(126))%3)%2==0 ? ShipDirection.Horizontal : ShipDirection.Vertical;
         
         print("[Row:\(row): Column:\(column)]")
         print("Button.Tag = \(button.tag)")

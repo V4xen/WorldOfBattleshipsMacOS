@@ -29,7 +29,7 @@ class Player {
         self.ammo_Nuclear = 0;
         self.ammo_Rockets = 0;
         self.ammo_Laser = 0;
-        self.ammo_Battery = 10;
+        self.ammo_Battery = 450;
     }
     
     init(_id: Int) {
@@ -38,7 +38,7 @@ class Player {
         self.ammo_Nuclear = 0;
         self.ammo_Rockets = 0;
         self.ammo_Laser = 0;
-        self.ammo_Battery = 10;
+        self.ammo_Battery = 450;
     }
     
     func getNumberOfShips() -> Int {
