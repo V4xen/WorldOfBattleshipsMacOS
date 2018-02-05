@@ -160,11 +160,11 @@ class GameController: NSViewController {
         }
         if (Game.state == GameState.PlayerTurn) {
             // write how many ammo left
-            to.string = "Select type of ammunition:\n" + "\tBattery amunition left: \(Game.player.ammo_Battery)\n" + "\tRockets left: \(Game.player.ammo_Rockets)\n" + "\tLaser energy left: \(Game.player.ammo_Laser)\n" + "\tNuclear balistics left: \(Game.player.ammo_Nuclear)\n" + text;
+            to.string = "Select type of ammunition:\t\tEnemy's ships left: \(Game.computer.getNumberOfShips())\n" + "\tBattery amunition left: \(Game.player.ammo_Battery)\n" + "\tRockets left: \(Game.player.ammo_Rockets)\n" + "\tLaser energy left: \(Game.player.ammo_Laser)\n" + "\tNuclear balistics left: \(Game.player.ammo_Nuclear)\n" + text;
         }
         
         if (Game.state == GameState.Win || Game.state == GameState.GameOver) {
-            to.string = "\n\n\tIt's over, no more ships or ammo to shot!\n" + text;
+            to.string = "\n\n\tIt's over, no more ships or ammo to shot!\n" + text /*debug:*/ + "\nNumber of ships enemy left: \(Game.computer.getNumberOfShips())";
         }
     }
     
@@ -1083,11 +1083,12 @@ class GameController: NSViewController {
                 case Hitbox.Fighter:
                     TechUnits.setButtonProporties(button: button, _title: "🔸", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
                     button.isEnabled = false;
-                    Game.computerField[button.tag] = .SpaceExplosion;
+                    Game.computerField[button.tag] = .Fighter_Hit;
                     _ = Game.computer.fighters.popLast();
                     shooted = true;
                     break;
                 case .HunterPart:
+                    
                     break;
                 case .CruiserPart:
                     break;

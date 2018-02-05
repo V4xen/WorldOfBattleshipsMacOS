@@ -48,7 +48,7 @@ class MainGame {
         self.numberOfPlayerBattleships4 = 0
         
         self.numberOfComputerFigthers1 = 1
-        self.numberOfComputerHunters2 = 0
+        self.numberOfComputerHunters2 = 1
         self.numberOfComputerCruisers3 = 0
         self.numberOfComputerBattleships4 = 0
         
