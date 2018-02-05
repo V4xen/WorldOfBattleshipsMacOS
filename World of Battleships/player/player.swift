@@ -26,19 +26,19 @@ class Player {
     init(_id: Int, _name: String) {
         id = _id;
         name = _name;
-        self.ammo_Nuclear = 1;
-        self.ammo_Rockets = 4;
+        self.ammo_Nuclear = 0;
+        self.ammo_Rockets = 0;
         self.ammo_Laser = 0;
-        self.ammo_Battery = 500;
+        self.ammo_Battery = 10;
     }
     
     init(_id: Int) {
         id = _id;
         name = "";
-        self.ammo_Nuclear = 1;
-        self.ammo_Rockets = 4;
+        self.ammo_Nuclear = 0;
+        self.ammo_Rockets = 0;
         self.ammo_Laser = 0;
-        self.ammo_Battery = 500;
+        self.ammo_Battery = 10;
     }
     
     func getNumberOfShips() -> Int {

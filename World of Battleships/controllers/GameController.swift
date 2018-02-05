@@ -139,8 +139,17 @@ class GameController: NSViewController {
                 }
             }
             if (Game.state == GameState.Win) {
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
                 playerConsoleWrite(text: "", to: playerConsole);
                 let modalWindowResult = TechUnits.dialogOKCancel(question: "You won!", text: "Congratulations! You won!", buttons: TechUnits.Buttons.OK);
+                if (modalWindowResult == true) {
+                    self.view.window?.close()
+                }
+            }
+            if (Game.state == GameState.GameOver) {
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
+                playerConsoleWrite(text: "", to: playerConsole);
+                let modalWindowResult = TechUnits.dialogOKCancel(question: "Game over!", text: "You lost this battle! You're out of ammunition!", buttons: TechUnits.Buttons.OK);
                 if (modalWindowResult == true) {
                     self.view.window?.close()
                 }
@@ -1083,16 +1092,46 @@ class GameController: NSViewController {
                 case Hitbox.Fighter:
                     TechUnits.setButtonProporties(button: button, _title: "🔸", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
                     button.isEnabled = false;
+                    let last = Game.computer.fighters.count-1;
                     Game.computerField[button.tag] = .Fighter_Hit;
-                    _ = Game.computer.fighters.popLast();
+                    Game.computer.fighters[last].healthPoints! -= 1;
+                    if (Game.computer.fighters[last].healthPoints == 0) {
+                        _ = Game.computer.fighters.popLast();
+                    }
                     shooted = true;
                     break;
                 case .HunterPart:
-                    
+                    TechUnits.setButtonProporties(button: button, _title: "🔸", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    button.isEnabled = false;
+                    let last = Game.computer.hunters.count-1;
+                    Game.computerField[button.tag] = .HunterPart_Hit;
+                    Game.computer.hunters[last].healthPoints! -= 1;
+                    if (Game.computer.hunters[last].healthPoints == 0) {
+                        _ = Game.computer.hunters.popLast();
+                    }
+                    shooted = true;
                     break;
                 case .CruiserPart:
+                    TechUnits.setButtonProporties(button: button, _title: "🔸", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    button.isEnabled = false;
+                    let last = Game.computer.cruisers.count-1;
+                    Game.computerField[button.tag] = .CruiserPart_Hit;
+                    Game.computer.cruisers[last].healthPoints! -= 1;
+                    if (Game.computer.cruisers[last].healthPoints == 0) {
+                        _ = Game.computer.cruisers.popLast();
+                    }
+                    shooted = true;
                     break;
                 case .BattleshipPart:
+                    TechUnits.setButtonProporties(button: button, _title: "🔸", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    button.isEnabled = false;
+                    let last = Game.computer.battleships.count-1;
+                    Game.computerField[button.tag] = .BattleshipPart_Hit;
+                    Game.computer.battleships[last].healthPoints! -= 1;
+                    if (Game.computer.battleships[last].healthPoints == 0) {
+                        _ = Game.computer.battleships.popLast();
+                    }
+                    shooted = true;
                     break;
                 default:
                     return;
