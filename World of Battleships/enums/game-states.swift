@@ -13,5 +13,6 @@ enum GameState {
     case PlacingShips,PlaceComputerShips
     case PlayerTurn, ComputerTurn
     case EndOfGame
-    case GameOver, Win
+    case GameOver_NoAmmo, GameOver_NoShips
+    case Win_NoAmmo, Win_NoShips
 }

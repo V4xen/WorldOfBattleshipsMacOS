@@ -134,17 +134,32 @@ class GameController: NSViewController {
                 TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: true);
                 Game.state = GameState.PlayerTurn;
                 updatePlayerConsole();
-                
-                if (Game.player.getAmmoLeft() == 0) {
-                    Game.state = .GameOver;
-                }
-                // check if it's end of game:
-                if (Game.state == GameState.EndOfGame) {
-                    // checking dependencities to win the game, else it's lost
-                    //if...
-                }
             }
-            if (Game.state == GameState.Win) {
+            
+            if (Game.state == GameState.PlayerTurn && Game.computer.getNumberOfShips() == 0) {
+                Game.state = .Win_NoShips;
+            }
+            
+            if (Game.state == GameState.PlayerTurn && Game.computer.getAmmoLeft() == 0) {
+                Game.state = .Win_NoAmmo;
+            }
+            
+            if (Game.state == GameState.PlayerTurn && Game.player.getAmmoLeft() == 0) {
+                Game.state = .GameOver_NoAmmo;
+            }
+            
+            if (Game.state == GameState.PlayerTurn && Game.player.getNumberOfShips() == 0) {
+                Game.state = .GameOver_NoShips;
+            }
+            
+            // check if it's end of game:
+            if (Game.state == GameState.PlayerTurn && Game.state == GameState.EndOfGame) {
+                // checking dependencities to win the game, else it's lost
+                
+                
+            }
+            
+            if (Game.state == .Win_NoAmmo || Game.state == .Win_NoShips) {
                 TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
                 playerConsoleWrite(text: "", to: playerConsole);
                 let modalWindowResult = TechUnits.dialogOKCancel(question: "You won!", text: "Congratulations! You won!", buttons: TechUnits.Buttons.OK);
@@ -152,10 +167,18 @@ class GameController: NSViewController {
                     self.view.window?.close()
                 }
             }
-            if (Game.state == GameState.GameOver) {
+            if (Game.state == .GameOver_NoAmmo) {
                 TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
                 playerConsoleWrite(text: "", to: playerConsole);
-                let modalWindowResult = TechUnits.dialogOKCancel(question: "Game over!", text: "You lost this battle! You're out of ammunition!", buttons: TechUnits.Buttons.OK);
+                let modalWindowResult = TechUnits.dialogOKCancel(question: "Game over!", text: "You lost this battle! You're out of ammunition!", buttons: .OK);
+                if (modalWindowResult == true) {
+                    self.view.window?.close()
+                }
+            }
+            if (Game.state == .GameOver_NoShips) {
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
+                playerConsoleWrite(text: "", to: playerConsole);
+                let modalWindowResult = TechUnits.dialogOKCancel(question: "Game over!", text: "You lost this battle! Your fleet has been destroyed!", buttons: .OK);
                 if (modalWindowResult == true) {
                     self.view.window?.close()
                 }
@@ -181,8 +204,8 @@ class GameController: NSViewController {
             to.string = "Enemy turn - wait 'till shot...\t\tEnemy's ships left: \(Game.computer.getNumberOfShips())\n" + "\tBattery amunition left: \(Game.player.ammo_Battery)\n" + "\tRockets left: \(Game.player.ammo_Rockets)\n" + "\tLaser energy left: \(Game.player.ammo_Laser)\n" + "\tNuclear balistics left: \(Game.player.ammo_Nuclear)\n" + text;
         }
         
-        if (Game.state == GameState.Win || Game.state == GameState.GameOver) {
-            to.string = "\n\n\tIt's over, no more ships or ammo to shot!\n" + text /*debug:*/ + "\nNumber of ships enemy left: \(Game.computer.getNumberOfShips())";
+        if (Game.state == .Win_NoAmmo || Game.state == .Win_NoShips || Game.state == GameState.GameOver_NoAmmo || Game.state == .GameOver_NoShips) {
+            to.string = "\n\n\tIt's over, no more ammo or ships to shot!\n" + text /*debug:*/ + "\nNumber of ships enemy left: \(Game.computer.getNumberOfShips())";
         }
     }
     
@@ -316,27 +339,36 @@ class GameController: NSViewController {
     
     func placingComputerShipsGenerator(buttonsArray: [NSButton]) {
         //place all of battleships...
+        var varRepeat: Bool;
         while (Game.numberOfComputerBattleships4 > 0){
+            repeat {
             let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
-            placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Battleship4);
+            varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Battleship4);
+            } while (!varRepeat)
         }
         
         //place all of cruisers...
         while (Game.numberOfComputerCruisers3 > 0) {
-            let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
-            placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Cruiser3);
+            repeat {
+                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Cruiser3);
+            } while (!varRepeat)
         }
         
         //place all of hunters...
         while (Game.numberOfComputerHunters2 > 0) {
-            let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
-            placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Hunter2);
+            repeat {
+                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Hunter2);
+            } while (!varRepeat)
         }
         
         //place all of fighters...
         while (Game.numberOfComputerFigthers1 > 0) {
-            let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
-            placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Fighter1);
+            repeat {
+                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Fighter1);
+            } while (!varRepeat)
         }
     }
     
@@ -446,7 +478,7 @@ class GameController: NSViewController {
         }
     }
     
-    func placeComputerShip(button: NSButton, _shiptype: ShipType) {
+    func placeComputerShip(button: NSButton, _shiptype: ShipType) -> Bool {
         let column: Int = button.tag % Game.FieldSize;
         let row: Int = button.tag / Game.FieldSize;
         let randomOrientation = Int((arc4random_uniform(126))%3)%2==0 ? ShipDirection.Horizontal : ShipDirection.Vertical;
@@ -477,6 +509,7 @@ class GameController: NSViewController {
                 } else {
                     
                     print("Number of Fighters reached maximum or there is another ship on this field!\n");
+                    return false;
                     
                 }
                 
@@ -556,6 +589,7 @@ class GameController: NSViewController {
                 } else {
                     
                     print("Number of Hunters reached maximum!\n");
+                    return false;
                 }
                 
                 break;
@@ -623,7 +657,7 @@ class GameController: NSViewController {
                         TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
-                        Game.computerField[tag] = Hitbox.HunterPart;
+                        Game.computerField[tag] = Hitbox.CruiserPart;
                         
                         tag = row * Game.FieldSize + column + 2;
                         
@@ -647,6 +681,7 @@ class GameController: NSViewController {
                 } else {
                     
                     print("Number of Cruisers reached maximum!\n");
+                    return false;
                 }
                 
                 break;
@@ -752,18 +787,20 @@ class GameController: NSViewController {
                 } else {
                     
                     print("Number of Battleships reached maximum!\n");
+                    return false;
                 }
                 
                 break;
                 
             default:
                 print("Error, no ship to place");
-                return;
+                return false;
             }
         }
         if (Game.numberOfPlayerShipsLeftToPlace() == 0) {
             Game.state = GameState.PlaceComputerShips;
         }
+        return true;
     }
     
     func placeShip(button: NSButton) {
@@ -1170,7 +1207,7 @@ class GameController: NSViewController {
             break;
         }
         if (Game.computer.getNumberOfShips() == 0) {
-            Game.state = GameState.Win
+            Game.state = GameState.Win_NoShips
         }
     }
     
