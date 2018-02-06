@@ -37,7 +37,7 @@ class MainGame {
         self.playerField = [];
         self.computerField = [];
         let tmp = self.FieldSize * self.FieldSize;
-        for _ in 0...tmp {
+        for _ in 0...tmp-1 {
             self.playerField.append(Hitbox.Space)
             self.computerField.append(Hitbox.Space)
         }
