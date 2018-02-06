@@ -17,6 +17,8 @@ class GameController: NSViewController {
     var computerButtonsField: [NSButton] = [];
     var functionButtons: [NSButton] = [];
     
+    var shipDestroyed: ShipType = .none0;
+    
     var selectedShipToAdding: ShipType = ShipType.none0; //variable from ships buttons to placing
     var selectedShipOrientation: ShipDirection = ShipDirection.Horizontal; //variable from ships buttons to placing
     var selectedAmmoType: AmmoType = .none;
@@ -115,37 +117,59 @@ class GameController: NSViewController {
              ################# CHANGE OF GAME STATE: Shooting! ####################
              */
             if (Game.state == GameState.PlayerTurn) {
-                updatePlayerConsole();
+                if (shipDestroyed != .none0) {
+                    switch shipDestroyed {
+                    case .Fighter1:
+                        playerConsoleWrite(text: "\n\n\t\tFIGHTER DESTROYED!", to: playerConsole);
+                        break;
+                    case .Hunter2:
+                        playerConsoleWrite(text: "\n\n\t\tHUNTER DESTROYED!", to: playerConsole);
+                        break;
+                    case .Cruiser3:
+                        playerConsoleWrite(text: "\n\n\t\tCRUISER DESTROYED!", to: playerConsole);
+                        break;
+                    case .Battleship4:
+                        playerConsoleWrite(text: "\n\n\t\tBATTLESHIP DESTROYED!", to: playerConsole);
+                        break;
+                    case .none0:
+                        updatePlayerConsole();
+                        break;
+                    }
+                }
                 // player shot function:
+                shipDestroyed = .none0;
                 playerShot(button: button);
                 
-                // disable bot field for a while
-                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
-                Game.state = GameState.ComputerTurn;
                 
+                // disable bot field for a while
+                //TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
+                Game.state = GameState.ComputerTurn;
+            }
+            
+            if (Game.state == GameState.ComputerTurn && Game.computer.getNumberOfShips() == 0) {
+                Game.state = .Win_NoShips;
+            }
+            
+            if (Game.state == GameState.ComputerTurn && Game.player.getAmmoLeft() == 0) {
+                Game.state = .GameOver_NoAmmo;
+            }
+            
+            if (Game.state == .ComputerTurn) {
                 // update console and simulate "thinking" of bot
-                playerConsoleWrite(text: "\nComputer is shooting, just wait", to: playerConsole);
+                //playerConsoleWrite(text: "\nComputer is shooting, just wait", to: playerConsole);
                 //sleep(2); //- bad idea!
                 
                 // computer shot function:
-                //computerShot...
+                while (!computerShot()) {};
                 
                 // enable bot field back
-                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: true);
+                //TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: true);
                 Game.state = GameState.PlayerTurn;
-                updatePlayerConsole();
-            }
-            
-            if (Game.state == GameState.PlayerTurn && Game.computer.getNumberOfShips() == 0) {
-                Game.state = .Win_NoShips;
+                //updatePlayerConsole();
             }
             
             if (Game.state == GameState.PlayerTurn && Game.computer.getAmmoLeft() == 0) {
                 Game.state = .Win_NoAmmo;
-            }
-            
-            if (Game.state == GameState.PlayerTurn && Game.player.getAmmoLeft() == 0) {
-                Game.state = .GameOver_NoAmmo;
             }
             
             if (Game.state == GameState.PlayerTurn && Game.player.getNumberOfShips() == 0) {
@@ -159,14 +183,24 @@ class GameController: NSViewController {
                 
             }
             
-            if (Game.state == .Win_NoAmmo || Game.state == .Win_NoShips) {
+            if (Game.state == .Win_NoAmmo) {
                 TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
                 playerConsoleWrite(text: "", to: playerConsole);
-                let modalWindowResult = TechUnits.dialogOKCancel(question: "You won!", text: "Congratulations! You won!", buttons: TechUnits.Buttons.OK);
+                let modalWindowResult = TechUnits.dialogOKCancel(question: "You won!", text: "Enemy as been out of ammo and flee away! You won this battle!", buttons: TechUnits.Buttons.OK);
                 if (modalWindowResult == true) {
                     self.view.window?.close()
                 }
             }
+            
+            if (Game.state == .Win_NoShips) {
+                TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
+                playerConsoleWrite(text: "", to: playerConsole);
+                let modalWindowResult = TechUnits.dialogOKCancel(question: "You won!", text: "Congratulations! You have destroyed all enemy ships! Enemy fleet is disturbed!", buttons: TechUnits.Buttons.OK);
+                if (modalWindowResult == true) {
+                    self.view.window?.close()
+                }
+            }
+            
             if (Game.state == .GameOver_NoAmmo) {
                 TechUnits.buttonsEnableDisable(Buttons: computerButtonsField, switchTo: false);
                 playerConsoleWrite(text: "", to: playerConsole);
@@ -342,15 +376,15 @@ class GameController: NSViewController {
         var varRepeat: Bool;
         while (Game.numberOfComputerBattleships4 > 0){
             repeat {
-            let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
-            varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Battleship4);
+                let randomTag = TechUnits.random(a: Game.FieldSize * Game.FieldSize);
+                varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Battleship4);
             } while (!varRepeat)
         }
         
         //place all of cruisers...
         while (Game.numberOfComputerCruisers3 > 0) {
             repeat {
-                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                let randomTag = TechUnits.random(a: Game.FieldSize * Game.FieldSize);
                 varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Cruiser3);
             } while (!varRepeat)
         }
@@ -358,7 +392,7 @@ class GameController: NSViewController {
         //place all of hunters...
         while (Game.numberOfComputerHunters2 > 0) {
             repeat {
-                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                let randomTag = TechUnits.random(a: Game.FieldSize * Game.FieldSize);
                 varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Hunter2);
             } while (!varRepeat)
         }
@@ -366,7 +400,7 @@ class GameController: NSViewController {
         //place all of fighters...
         while (Game.numberOfComputerFigthers1 > 0) {
             repeat {
-                let randomTag = Int(arc4random_uniform(_: UInt32(Game.FieldSize * Game.FieldSize)));
+                let randomTag = TechUnits.random(a: Game.FieldSize * Game.FieldSize);
                 varRepeat = placeComputerShip(button: computerButtonsField[randomTag], _shiptype: .Fighter1);
             } while (!varRepeat)
         }
@@ -481,7 +515,7 @@ class GameController: NSViewController {
     func placeComputerShip(button: NSButton, _shiptype: ShipType) -> Bool {
         let column: Int = button.tag % Game.FieldSize;
         let row: Int = button.tag / Game.FieldSize;
-        let randomOrientation = Int((arc4random_uniform(126))%3)%2==0 ? ShipDirection.Horizontal : ShipDirection.Vertical;
+        let randomOrientation = (TechUnits.random(a: 126)%3)%2==0 ? ShipDirection.Horizontal : ShipDirection.Vertical;
         
         print("[Row:\(row): Column:\(column)]")
         print("Button.Tag = \(button.tag)")
@@ -493,7 +527,7 @@ class GameController: NSViewController {
                 
                 if (Game.numberOfComputerFigthers1 > 0 && Game.computerField[button.tag] == .Space) {
                     //1. change button title:
-                    TechUnits.setButtonProporties(button: button, _title: "F", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.1, _bgC_green: 0.4, _bgC_blue: 0.4, _bgC_alpha: 0.7, _fontSize: 18)
+                    //TechUnits.setButtonProporties(button: button, _title: "F", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.1, _bgC_green: 0.4, _bgC_blue: 0.4, _bgC_alpha: 0.7, _fontSize: 18)
                     
                     //2. add ship to ships array of player
                     Game.computer.fighters.append(Ship(_type: .Fighter1, _Xpos: column, _Ypos: row, _direction: randomOrientation, _pointType: .Fighter));
@@ -553,14 +587,14 @@ class GameController: NSViewController {
                 if (Game.numberOfComputerHunters2 > 0 && canBePlaced == true) {
                     
                     //1. change button title:
-                    TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                    //TechUnits.setButtonProporties(button: button, _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                     Game.computerField[button.tag] = Hitbox.HunterPart;
                     
                     if randomOrientation == .Vertical {
                         
                         let tag = (row + 1) * Game.FieldSize + column;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.HunterPart;
@@ -569,7 +603,7 @@ class GameController: NSViewController {
                         
                         let tag = row * Game.FieldSize + column + 1;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "H", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.2, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.HunterPart;
@@ -632,21 +666,21 @@ class GameController: NSViewController {
                 if (Game.numberOfComputerCruisers3 > 0 && canBePlaced == true) {
                     
                     //1. change button title:
-                    TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                    //TechUnits.setButtonProporties(button: button, _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                     Game.computerField[button.tag] = Hitbox.CruiserPart;
                     
                     if randomOrientation == .Vertical {
                         var tag = (row + 1) * Game.FieldSize + column;
                         
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.CruiserPart;
                         
                         tag = (row + 2) * Game.FieldSize + column;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.CruiserPart;
@@ -654,14 +688,14 @@ class GameController: NSViewController {
                     if randomOrientation == .Horizontal {
                         var tag = row * Game.FieldSize + column + 1;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.CruiserPart;
                         
                         tag = row * Game.FieldSize + column + 2;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "C", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.5, _bgC_green: 0.3, _bgC_blue: 0.6, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.CruiserPart;
@@ -724,28 +758,28 @@ class GameController: NSViewController {
                 if (Game.numberOfComputerBattleships4 > 0 && canBePlaced == true) {
                     
                     //1. change button title:
-                    TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                    //TechUnits.setButtonProporties(button: button, _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                     Game.computerField[row*Game.FieldSize+column] = Hitbox.BattleshipPart;
                     
                     if randomOrientation == .Vertical {
                         
                         var tag = (row + 1) * Game.FieldSize + column;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
                         
                         tag = (row + 2) * Game.FieldSize + column;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
                         
                         tag = (row + 3) * Game.FieldSize + column;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
@@ -753,21 +787,21 @@ class GameController: NSViewController {
                     if randomOrientation == .Horizontal {
                         var tag = row * Game.FieldSize + column + 1;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
                         
                         tag = row * Game.FieldSize + column + 2;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
                         
                         tag = row * Game.FieldSize + column + 3;
                         
-                        TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
+                        //TechUnits.setButtonProporties(button: computerButtonsField[tag], _title: "B", _butHue: 0.57, _butSaturation: 1, _butBrightness: 1, _butAlpha: 1, _bgC_red: 0.6, _bgC_green: 0.3, _bgC_blue: 0.1, _bgC_alpha: 0.7, _fontSize: 18)
                         
                         // add ship at correct position in array of hitboxes
                         Game.computerField[tag] = Hitbox.BattleshipPart;
@@ -1123,6 +1157,113 @@ class GameController: NSViewController {
         }
     }
     
+    func computerShot() -> Bool {
+        //select ammo type
+        var shooted = false;
+        var ammoSelected: AmmoType;
+        if (Game.computer.ammo_Nuclear > 0) {
+            ammoSelected = .Nuclear
+        } else if (Game.computer.ammo_Laser > 0) {
+            ammoSelected = .Laser
+        } else if (Game.computer.ammo_Rockets > 0) {
+            ammoSelected = .Rocket
+        } else {
+            ammoSelected = .Battery
+        }
+        
+        // random button selecting:
+        let randomTag = TechUnits.random(a: Game.FieldSize * Game.FieldSize)
+        
+        switch ammoSelected {
+        case .Battery:
+            if (Game.computer.ammo_Battery > 0) {
+                //shooting!
+                switch Game.playerField[randomTag] {
+                case .Space:
+                    playerButtonsField[randomTag].attributedTitle = NSMutableAttributedString(string: "💥", attributes: [NSAttributedStringKey.foregroundColor: NSColor.white, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 10), NSAttributedStringKey.paragraphStyle: pstyle])
+                    Game.playerField[randomTag] = .SpaceExplosion;
+                    shooted = true;
+                    break;
+                case .Fighter:
+                    TechUnits.setButtonProporties(button: playerButtonsField[randomTag], _title: "xF", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    let last = Game.player.fighters.count-1;
+                    Game.playerField[randomTag] = .Fighter_Hit;
+                    Game.player.fighters[last].healthPoints! -= 1;
+                    if (Game.player.fighters[last].healthPoints == 0) {
+                        _ = Game.player.fighters.popLast();
+                    }
+                    shooted = true;
+                    break;
+                case .HunterPart:
+                    TechUnits.setButtonProporties(button: playerButtonsField[randomTag], _title: "xH", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    let last = Game.player.hunters.count-1;
+                    Game.playerField[randomTag] = .HunterPart_Hit;
+                    Game.player.hunters[last].healthPoints! -= 1;
+                    if (Game.player.hunters[last].healthPoints == 0) {
+                        _ = Game.player.hunters.popLast();
+                    }
+                    shooted = true;
+                    break;
+                case .CruiserPart:
+                    TechUnits.setButtonProporties(button: playerButtonsField[randomTag], _title: "xC", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    let last = Game.player.cruisers.count-1;
+                    Game.playerField[randomTag] = .CruiserPart_Hit;
+                    Game.player.cruisers[last].healthPoints! -= 1;
+                    if (Game.player.cruisers[last].healthPoints == 0) {
+                        _ = Game.player.cruisers.popLast();
+                    }
+                    shooted = true;
+                    break;
+                case .BattleshipPart:
+                    TechUnits.setButtonProporties(button: playerButtonsField[randomTag], _title: "xB", _butHue: 0, _butSaturation: 1, _butBrightness: 0.5, _butAlpha: 0.66, _bgC_red: 1, _bgC_green: 0.2, _bgC_blue: 0, _bgC_alpha: 0.66, _fontSize: 10)
+                    let last = Game.player.battleships.count-1;
+                    Game.playerField[randomTag] = .BattleshipPart_Hit;
+                    Game.player.battleships[last].healthPoints! -= 1;
+                    if (Game.player.battleships[last].healthPoints == 0) {
+                        _ = Game.player.battleships.popLast();
+                    }
+                    shooted = true;
+                    break;
+                default:
+                    return false;
+                }
+                shooted = true;
+            } else {
+                shooted = false;
+            }
+            if (shooted) {
+                Game.computer.ammo_Battery -= 1;
+                return true;
+            }
+            break;
+        case .Rocket:
+            
+            if (shooted) {
+                Game.computer.ammo_Rockets -= 1;
+                return true;
+            }
+            break
+        case .Laser:
+            
+            if (shooted) {
+                Game.computer.ammo_Laser -= 1;
+                return true;
+            }
+            break
+        case .Nuclear:
+            
+            if (shooted) {
+                Game.computer.ammo_Nuclear -= 1;
+                return true;
+            }
+            break
+        default:
+            return false;
+        }
+        
+        return false;
+    }
+    
     func playerShot(button: NSButton) {
         var shooted = false
         switch selectedAmmoType {
@@ -1133,6 +1274,7 @@ class GameController: NSViewController {
                     button.attributedTitle = NSMutableAttributedString(string: "💥", attributes: [NSAttributedStringKey.foregroundColor: NSColor.white, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 10), NSAttributedStringKey.paragraphStyle: pstyle])
                     button.isEnabled = false;
                     Game.computerField[button.tag] = .SpaceExplosion;
+                    updatePlayerConsole();
                     shooted = true;
                     break;
                 case Hitbox.Fighter:
@@ -1143,7 +1285,9 @@ class GameController: NSViewController {
                     Game.computer.fighters[last].healthPoints! -= 1;
                     if (Game.computer.fighters[last].healthPoints == 0) {
                         _ = Game.computer.fighters.popLast();
-                    }
+                        playerConsoleWrite(text: "\t\tFIGHTER DESTROYED!", to: playerConsole)
+                        shipDestroyed = .Fighter1;
+                    } else {updatePlayerConsole();}
                     shooted = true;
                     break;
                 case .HunterPart:
@@ -1154,7 +1298,9 @@ class GameController: NSViewController {
                     Game.computer.hunters[last].healthPoints! -= 1;
                     if (Game.computer.hunters[last].healthPoints == 0) {
                         _ = Game.computer.hunters.popLast();
-                    }
+                        playerConsoleWrite(text: "\t\tHUNTER DESTROYED!", to: playerConsole)
+                        shipDestroyed = .Hunter2;
+                    } else {updatePlayerConsole();}
                     shooted = true;
                     break;
                 case .CruiserPart:
@@ -1165,7 +1311,9 @@ class GameController: NSViewController {
                     Game.computer.cruisers[last].healthPoints! -= 1;
                     if (Game.computer.cruisers[last].healthPoints == 0) {
                         _ = Game.computer.cruisers.popLast();
-                    }
+                        playerConsoleWrite(text: "\t\tCRUISER DESTROYED!", to: playerConsole)
+                        shipDestroyed = .Cruiser3;
+                    } else {updatePlayerConsole();}
                     shooted = true;
                     break;
                 case .BattleshipPart:
@@ -1176,32 +1324,34 @@ class GameController: NSViewController {
                     Game.computer.battleships[last].healthPoints! -= 1;
                     if (Game.computer.battleships[last].healthPoints == 0) {
                         _ = Game.computer.battleships.popLast();
-                    }
+                        playerConsoleWrite(text: "\t\tBATTLESHIP DESTROYED!", to: playerConsole)
+                        shipDestroyed = .Battleship4;
+                    } else {updatePlayerConsole();}
                     shooted = true;
                     break;
                 default:
                     return;
                 }
             }
-            if (shooted) {Game.player.ammo_Battery -= 1;updatePlayerConsole();}
+            if (shooted) {Game.player.ammo_Battery -= 1}
             break;
         case .Rocket:
             if (Game.player.ammo_Rockets > 0) {
                 //rocket shot
             }
-            if (shooted) {Game.player.ammo_Rockets -= 1;updatePlayerConsole();}
+            if (shooted) {Game.player.ammo_Rockets -= 1}
             break;
         case .Laser:
             if (Game.player.ammo_Laser > 0) {
                 //laser shot
             }
-            if (shooted) {Game.player.ammo_Laser -= 1;updatePlayerConsole();}
+            if (shooted) {Game.player.ammo_Laser -= 1}
             break;
         case .Nuclear:
             if (Game.player.ammo_Nuclear > 0) {
                 //nuclear shot
             }
-            if (shooted) {Game.player.ammo_Nuclear -= 1;updatePlayerConsole();}
+            if (shooted) {Game.player.ammo_Nuclear -= 1}
             break;
         case .none:
             break;

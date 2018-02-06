@@ -42,14 +42,14 @@ class MainGame {
             self.computerField.append(Hitbox.Space)
         }
         
-        self.numberOfPlayerFigthers1 = 10
-        self.numberOfPlayerHunters2 = 6
-        self.numberOfPlayerCruisers3 = 4
+        self.numberOfPlayerFigthers1 = 5
+        self.numberOfPlayerHunters2 = 4
+        self.numberOfPlayerCruisers3 = 3
         self.numberOfPlayerBattleships4 = 2
         
-        self.numberOfComputerFigthers1 = 10
-        self.numberOfComputerHunters2 = 6
-        self.numberOfComputerCruisers3 = 4
+        self.numberOfComputerFigthers1 = 5
+        self.numberOfComputerHunters2 = 4
+        self.numberOfComputerCruisers3 = 3
         self.numberOfComputerBattleships4 = 2
         
         self.player = Player(_id: 1, _name: "Captian");

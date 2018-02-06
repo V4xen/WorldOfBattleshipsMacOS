@@ -60,6 +60,10 @@ class TechUnits {
         return alert.runModal() == .alertFirstButtonReturn
     }
     
+    static func random(a: Int) -> Int {
+        return Int(arc4random_uniform(_: UInt32(a)))
+    }
+    
     
     // DEPRECATED
     //this funct helps to change button apparience on battlefield when placing ships
